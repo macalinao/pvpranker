@@ -18,7 +18,7 @@ public class PvPRanker extends JavaPlugin {
         saveDefaultConfig();
 
         // Load
-        loadRanks();
+        loadConfig();
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
     }
@@ -31,7 +31,7 @@ public class PvPRanker extends JavaPlugin {
     /**
      * Loads the ranks.
      */
-    private void loadRanks() {
+    private void loadConfig() {
         ranks = new HashMap<String, Rank>();
         ConfigurationSection s = getConfig().getConfigurationSection("ranks");
         if (s == null) {
