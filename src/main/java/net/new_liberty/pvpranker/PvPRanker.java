@@ -10,7 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  * PvPRanker main class
  */
 public class PvPRanker extends JavaPlugin {
+    private int killMultiplier;
+
+    private int killValue;
+
     private Map<String, Rank> ranks;
+
+    private Rank lowest = null;
 
     @Override
     public void onEnable() {
@@ -29,9 +35,13 @@ public class PvPRanker extends JavaPlugin {
     }
 
     /**
-     * Loads the ranks.
+     * Loads the config.
      */
     private void loadConfig() {
+        killValue = getConfig().getInt("kill-value");
+        killMultiplier = getConfig().getInt("kill-multiplier");
+
+        // Load ranks
         ranks = new HashMap<String, Rank>();
         ConfigurationSection s = getConfig().getConfigurationSection("ranks");
         if (s == null) {
@@ -43,6 +53,26 @@ public class PvPRanker extends JavaPlugin {
             int score = s.getInt(id + ".score");
             ranks.put(id, new Rank(id, name, score));
         }
+
+        // Calculate lowest rank
+        for (Rank rank : ranks.values()) {
+            if (lowest == null) {
+                lowest = rank;
+                continue;
+            }
+
+            if (rank.getScore() < lowest.getScore()) {
+                lowest = rank;
+            }
+        }
+    }
+
+    public int getKillMultiplier() {
+        return killMultiplier;
+    }
+
+    public int getKillValue() {
+        return killValue;
     }
 
     /**
@@ -77,6 +107,12 @@ public class PvPRanker extends JavaPlugin {
                 ret = rank;
             }
         }
+
+        // Get lowest rank if necessary
+        if (ret == null) {
+            ret = lowest;
+        }
+
         return ret;
     }
 }

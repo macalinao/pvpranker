@@ -1,14 +1,25 @@
 # PvPRanker configuration file.
+---
+# The amount of score to transfer when a player is killed.
+# If the player killed's score multiplied by this number is greater than
+# killValue, then that many points will be transferred instead.
+# Set this number to 0 if you want to disable this.
+kill-multiplier: 0.2
+
+# The minimum amount of points to transfer when a player is killed.
+kill-value: 10
+
+# The kill ranks.
+# The rank with the lowest score will cover any score under it.
 ranks:
   feeder:
+    # The name of the rank. You can use chat colors here.
     name: Feeder
+    # The minimum score needed to have this rank.
     score: -1000000
-  failure:
-    name: Failure
-    score: -100
   noob:
     name: Noob
-    score: -10
+    score: -100
   apprentice:
     name: Apprentice
     score: 10
