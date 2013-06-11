@@ -1,0 +1,32 @@
+# PvPRanker configuration file.
+ranks:
+  feeder:
+    name: Feeder
+    score: -1000000
+  failure:
+    name: Failure
+    score: -100
+  noob:
+    name: Noob
+    score: -10
+  apprentice:
+    name: Apprentice
+    score: 10
+  journeyman:
+    name: Journeyman
+    score: 50
+  adept:
+    name: Adept
+    score: 200
+  champion:
+    name: Champion
+    score: 500
+  hero:
+    name: Hero
+    score: 1000
+  godlike:
+    name: Godlike
+    score: 5000
+  legendary:
+    name: Legendary
+    score: 10000
