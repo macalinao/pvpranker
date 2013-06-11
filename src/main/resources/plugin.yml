@@ -1,0 +1,16 @@
+name: PvPRanker
+description: Ranks people based on how good they are in PvP.
+author: AlbireoX
+version: 1.0
+
+main: net.new_liberty.pvpranker.PvPRanker
+
+commands:
+    pvp:
+        description: PvPRanker main command
+        usage: /pvp <command>
+
+permissions:
+    pvpranker.admin:
+        description: PvPRanker admin permission
+
