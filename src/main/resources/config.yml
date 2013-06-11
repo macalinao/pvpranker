@@ -1,5 +1,18 @@
 # PvPRanker configuration file.
 ---
+# Database configuration. MySQL is required to use this plugin.
+db:
+  # MySQL Username
+  user: root
+  # MySQL Password (Remove line if you don't have one)
+  pass: pass
+  # Host (probably don't need to change)
+  host: localhost
+  # Port (also don't need to change)
+  port: 3306
+  # Database name
+  name: mydb
+
 # The amount of score to transfer when a player is killed.
 # If the player killed's score multiplied by this number is greater than
 # killValue, then that many points will be transferred instead.

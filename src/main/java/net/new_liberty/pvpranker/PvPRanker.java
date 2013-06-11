@@ -2,6 +2,7 @@ package net.new_liberty.pvpranker;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,6 +11,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * PvPRanker main class
  */
 public class PvPRanker extends JavaPlugin {
+    private Database db;
+
     private int killMultiplier;
 
     private int killValue;
@@ -26,12 +29,33 @@ public class PvPRanker extends JavaPlugin {
         // Load
         loadConfig();
 
+        // Load DB info
+        String dbUser = getConfig().getString("db.user");
+        String dbPass = getConfig().getString("db.pass", "");
+        String dbHost = getConfig().getString("db.host");
+        String dbPort = getConfig().getString("db.port");
+        String dbName = getConfig().getString("db.name");
+        db = new Database(this, dbUser, dbPass, dbHost, dbPort, dbName);
+        if (!db.connect()) {
+            getLogger().log(Level.SEVERE, "[PvPRanker] Could not connect to database. Disabling plugin.");
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
+
+        // Create tables
+        db.update("CREATE TABLE IF NOT EXISTS pvpr_scores ("
+                + "player varchar(16) NOT NULL,"
+                + "milestone varchar(255) NOT NULL,"
+                + "score int NOT NULL DEFAULT 0,"
+                + "PRIMARY KEY (player, milestone));");
+
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
     }
 
     @Override
     public void onDisable() {
         ranks = null;
+        db.dispose();
+        db = null;
     }
 
     /**
@@ -65,6 +89,15 @@ public class PvPRanker extends JavaPlugin {
                 lowest = rank;
             }
         }
+    }
+
+    /**
+     * Gets our database.
+     *
+     * @return
+     */
+    public Database getDb() {
+        return db;
     }
 
     public int getKillMultiplier() {
