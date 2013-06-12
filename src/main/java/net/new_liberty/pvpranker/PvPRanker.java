@@ -109,6 +109,16 @@ public class PvPRanker extends JavaPlugin {
     }
 
     /**
+     * Gets a PvPer by their name. Case sensitive.
+     *
+     * @param name
+     * @return
+     */
+    public PvPer getPvPer(String name) {
+        return new PvPer(this, name);
+    }
+
+    /**
      * Gets a rank by its id.
      *
      * @param id
