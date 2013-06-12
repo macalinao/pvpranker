@@ -50,6 +50,8 @@ public class PvPRanker extends JavaPlugin {
                 + "PRIMARY KEY (player, milestone));");
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
+
+        getCommand("pvp").setExecutor(new PvPCommand(this));
     }
 
     @Override
