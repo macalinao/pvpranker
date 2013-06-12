@@ -38,7 +38,6 @@ public final class Database {
                     return true;
                 }
             } catch (SQLException ex) {
-                plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not confirm if connection is closed!", ex);
             }
         }
 
@@ -46,7 +45,6 @@ public final class Database {
             connection = DriverManager.getConnection(url, user, pass);
             return true;
         } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not connect to database!", ex);
         }
 
         return false;

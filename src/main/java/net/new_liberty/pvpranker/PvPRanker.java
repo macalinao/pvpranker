@@ -39,6 +39,7 @@ public class PvPRanker extends JavaPlugin {
         if (!db.connect()) {
             getLogger().log(Level.SEVERE, "[PvPRanker] Could not connect to database. Disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
 
         // Create tables
@@ -53,6 +54,9 @@ public class PvPRanker extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (!isEnabled()) {
+            return;
+        }
         ranks = null;
         db.dispose();
         db = null;
