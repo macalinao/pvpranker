@@ -1,8 +1,8 @@
 package net.new_liberty.pvpranker;
 
 import java.sql.*;
+import java.util.Map;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Database stuff. MySQL sucks.
@@ -87,31 +87,9 @@ public final class Database {
         }
     }
 
-    /**
-     * Executes a query.
-     *
-     * @param query
-     * @return
-     */
-    public ResultSet execute(String query) {
+    public PreparedStatement prepareStatement(String query) throws SQLException {
         connect();
 
-        Statement statement = null;
-        ResultSet ret = null;
-        try {
-            statement = connection.createStatement();
-            ret = statement.executeQuery(query);
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not run database query '" + query + "'!", ex);
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not run close statement for query '" + query + "'!", ex);
-                }
-            }
-        }
-        return ret;
+        return connection.prepareStatement(query);
     }
 }
