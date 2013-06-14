@@ -1,65 +1,54 @@
 package net.new_liberty.pvpranker;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.sql.*;
-import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
 
 /**
  * Database stuff. MySQL sucks.
  */
 public final class Database {
+    private static final ResultSetHandler<Object> VALUE_HANDLER = new ResultSetHandler<Object>() {
+        @Override
+        public Object handle(ResultSet rs) throws SQLException {
+            if (!rs.next()) {
+                return null;
+            }
+
+            return rs.getObject("value");
+        }
+    };
+
     private final PvPRanker plugin;
 
-    private final String user;
+    private final MysqlDataSource source;
 
-    private final String pass;
-
-    private final String url;
-
-    private Connection connection = null;
-
-    public Database(PvPRanker plugin, String user, String pass, String host, String port, String database) {
+    public Database(PvPRanker plugin, String user, String pass, String host, int port, String database) {
         this.plugin = plugin;
-        this.user = user;
-        this.pass = pass;
-        url = "jdbc:mysql://" + host + ":" + port + "/" + database;
+
+        source = new MysqlDataSource();
+        source.setUser(user);
+        source.setPassword(pass);
+        source.setServerName(host);
+        source.setPort(port);
+        source.setDatabaseName(database);
     }
 
     /**
-     * Connects to the database.
+     * Attempts to connect to the database to check if the database credentials
+     * are valid.
      *
-     * @return True if the database connected successfully.
+     * @return
      */
-    public boolean connect() {
-        // Check if already connecteds
-        if (connection != null) {
-            try {
-                if (!connection.isClosed()) {
-                    return true;
-                }
-            } catch (SQLException ex) {
-            }
-        }
-
+    public boolean isValid() {
         try {
-            connection = DriverManager.getConnection(url, user, pass);
-            return true;
+            return source.getConnection() != null;
         } catch (SQLException ex) {
+            return false;
         }
-
-        return false;
-    }
-
-    /**
-     * Disposes of the database connection.
-     */
-    public void dispose() {
-        try {
-            connection.close();
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not close DB connection!", ex);
-        }
-        connection = null;
     }
 
     /**
@@ -67,29 +56,55 @@ public final class Database {
      *
      * @param query
      */
-    public void update(String query) {
-        connect();
-
-        Statement statement = null;
+    public void update(String query, Object... params) {
+        QueryRunner run = new QueryRunner(source);
         try {
-            statement = connection.createStatement();
-            statement.executeUpdate(query);
+            if (params == null) {
+                run.update(query);
+            } else {
+                run.update(query, params);
+            }
         } catch (SQLException ex) {
             plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not run database query '" + query + "'!", ex);
-        } finally {
-            if (statement != null) {
-                try {
-                    statement.close();
-                } catch (SQLException ex) {
-                    plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not run close statement for query '" + query + "'!", ex);
-                }
-            }
         }
     }
 
-    public PreparedStatement prepareStatement(String query) throws SQLException {
-        connect();
+    /**
+     * Executes a database query.
+     *
+     * @param <T>
+     * @param query
+     * @param handler
+     * @param params
+     * @return
+     */
+    public <T> T query(String query, ResultSetHandler<T> handler, Object... params) {
+        QueryRunner run = new QueryRunner(source);
+        try {
+            if (params != null) {
+                return run.query(query, handler, params);
+            } else {
+                return run.query(query, handler);
+            }
+        } catch (SQLException ex) {
+            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not execute database query '" + query + "'!", ex);
+        }
+        return null;
+    }
 
-        return connection.prepareStatement(query);
+    /**
+     * Gets a value from the database. The column name must be "value".
+     *
+     * @param query
+     * @param def The default value to return if the value is null.
+     * @param params
+     * @return
+     */
+    public Object get(String query, Object def, Object... params) {
+        Object ret = query(query, VALUE_HANDLER, params);
+        if (ret == null) {
+            return def;
+        }
+        return ret;
     }
 }

@@ -29,31 +29,42 @@ public class PvPer {
      * @return
      */
     public int getScore() {
-        PreparedStatement ps = null;
-        String query = "SELECT SUM(score) AS score "
+        String query = "SELECT SUM(score) AS value "
                 + "FROM pvpr_scores "
                 + "WHERE player = ?";
-
-        int ret = 0;
-        try {
-            ps = plugin.getDb().prepareStatement(query);
-            ps.setString(1, name);
-            ResultSet set = ps.executeQuery();
-            if (set.next()) {
-                ret = set.getInt("score");
-            }
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "Could not get score from ResultSet!", ex);
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-            } catch (SQLException ex) {
-                plugin.getLogger().log(Level.SEVERE, "Could not close score statement!", ex);
-            }
+        Object res = plugin.getDb().get(query, 0, name);
+        if (res == null) {
+            return 0;
         }
+        return ((Integer) res).intValue();
+    }
 
-        return ret;
+    /**
+     * Gets this player's score from the given milestone. Case sensitive.
+     *
+     * @param milestone
+     * @return
+     */
+    public int getScore(String milestone) {
+        String query = "SELECT score AS value "
+                + "FROM pvpr_scores "
+                + "WHERE player = ? AND milestone = ?";
+        Object res = plugin.getDb().get(query, 0, name, milestone);
+        if (res == null) {
+            return 0;
+        }
+        return ((Integer) res).intValue();
+    }
+
+    /**
+     * Sets the player's score for a given milestone.
+     *
+     * @param milestone
+     * @param score
+     */
+    public void setScore(String milestone, int score) {
+        String query = "UPDATE pvpr_scores SET score = ? "
+                + "WHERE player = ? AND milestone = ?";
+        plugin.getDb().update(query, score, name, milestone);
     }
 }

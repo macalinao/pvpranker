@@ -33,10 +33,10 @@ public class PvPRanker extends JavaPlugin {
         String dbUser = getConfig().getString("db.user");
         String dbPass = getConfig().getString("db.pass", "");
         String dbHost = getConfig().getString("db.host");
-        String dbPort = getConfig().getString("db.port");
+        int dbPort = getConfig().getInt("db.port");
         String dbName = getConfig().getString("db.name");
         db = new Database(this, dbUser, dbPass, dbHost, dbPort, dbName);
-        if (!db.connect()) {
+        if (!db.isValid()) {
             getLogger().log(Level.SEVERE, "[PvPRanker] Could not connect to database. Disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
@@ -60,7 +60,6 @@ public class PvPRanker extends JavaPlugin {
             return;
         }
         ranks = null;
-        db.dispose();
         db = null;
     }
 
