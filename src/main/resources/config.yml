@@ -13,15 +13,6 @@ db:
   # Database name
   name: mydb
 
-# The amount of score to transfer when a player is killed.
-# If the player killed's score multiplied by this number is greater than
-# killValue, then that many points will be transferred instead.
-# Set this number to 0 if you want to disable this.
-kill-multiplier: 0.2
-
-# The minimum amount of points to transfer when a player is killed.
-kill-value: 10
-
 # The kill ranks.
 # The rank with the lowest score will cover any score under it.
 ranks:
@@ -33,24 +24,21 @@ ranks:
   noob:
     name: Noob
     score: -100
+  novice:
+    name: Novice
+    score: 10
   apprentice:
     name: Apprentice
-    score: 10
+    score: 50
   journeyman:
     name: Journeyman
-    score: 50
+    score: 100
   adept:
     name: Adept
     score: 200
-  champion:
-    name: Champion
-    score: 500
-  hero:
-    name: Hero
-    score: 1000
   godlike:
     name: Godlike
-    score: 5000
+    score: 500
   legendary:
     name: Legendary
-    score: 10000
+    score: 1000
