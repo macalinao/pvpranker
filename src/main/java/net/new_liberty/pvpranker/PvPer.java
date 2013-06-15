@@ -63,8 +63,10 @@ public class PvPer {
      * @param score
      */
     public void setScore(String milestone, int score) {
-        String query = "UPDATE pvpr_scores SET score = ? "
+        String query = "INSERT INTO pvpr_scores (player, milestone, score) "
+                + "VALUES (?, ?, ?) "
+                + "ON DUPLICATE KEY UPDATE pvpr_scores SET score = ? "
                 + "WHERE player = ? AND milestone = ?";
-        plugin.getDb().update(query, score, name, milestone);
+        plugin.getDb().update(query, name, milestone, score, score, name, milestone);
     }
 }
