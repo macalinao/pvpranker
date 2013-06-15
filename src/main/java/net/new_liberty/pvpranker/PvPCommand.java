@@ -40,6 +40,7 @@ public class PvPCommand implements CommandExecutor {
                 plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
                     @Override
                     public void run() {
+                        sender.sendMessage("PvP Top Scores");
                         LinkedHashMap<String, Integer> map = plugin.generateScoreReport(theLimit);
                         for (Entry<String, Integer> playerScore : map.entrySet()) {
                             sender.sendMessage(playerScore.getKey() + " - " + playerScore.getValue());
