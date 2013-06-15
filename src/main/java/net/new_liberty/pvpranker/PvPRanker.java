@@ -1,8 +1,13 @@
 package net.new_liberty.pvpranker;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import org.apache.commons.dbutils.ResultSetHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,6 +16,17 @@ import org.bukkit.plugin.java.JavaPlugin;
  * PvPRanker main class
  */
 public class PvPRanker extends JavaPlugin {
+    private static ResultSetHandler<LinkedHashMap<String, Integer>> REPORT_HANDLER = new ResultSetHandler<LinkedHashMap<String, Integer>>() {
+        @Override
+        public LinkedHashMap<String, Integer> handle(ResultSet rs) throws SQLException {
+            LinkedHashMap<String, Integer> ret = new LinkedHashMap<String, Integer>();
+            while (rs.next()) {
+                ret.put(rs.getString("player"), rs.getInt("score"));
+            }
+            return ret;
+        }
+    };
+
     private Database db;
 
     private Map<String, Rank> ranks;
@@ -147,5 +163,36 @@ public class PvPRanker extends JavaPlugin {
         }
 
         return ret;
+    }
+
+    /**
+     * Generates a score report based on all-time stats.
+     *
+     * @param limit The number of records to get.
+     *
+     * @return A score report with the highest scores first. Keys are the player
+     * and values are the player's score.
+     */
+    public LinkedHashMap<String, Integer> generateScoreReport(int limit) {
+        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores LIMIT ? ORDER BY score DESC";
+        return db.query(query, REPORT_HANDLER, limit);
+    }
+
+    /**
+     * Generates a score report.
+     *
+     * @param limit The number of records to get.
+     * @param milestone The milestone of the report.
+     *
+     * @return A score report with the highest scores first. Keys are the player
+     * and values are the player's score.
+     */
+    public LinkedHashMap<String, Integer> generateScoreReport(int limit, String milestone) {
+        if (milestone == null) {
+            return generateScoreReport(limit);
+        }
+
+        String query = "SELECT player, score FROM pvpr_scores WHERE milestone = ? LIMIT ? ORDER BY score DESC";
+        return db.query(query, REPORT_HANDLER, milestone, limit);
     }
 }
