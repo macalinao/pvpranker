@@ -70,7 +70,7 @@ public class PvPRanker extends JavaPlugin {
         db.update("CREATE TABLE IF NOT EXISTS pvpr_scores ("
                 + "player varchar(16) NOT NULL,"
                 + "milestone varchar(255) NOT NULL,"
-                + "scpre INT(8) NOT NULL,"
+                + "score INT(8) NOT NULL,"
                 + "PRIMARY KEY (player, milestone));");
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
