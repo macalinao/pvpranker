@@ -10,10 +10,13 @@ public class Rank {
 
     private final int score;
 
-    public Rank(String id, String name, int score) {
+    private final int worth;
+
+    public Rank(String id, String name, int score, int worth) {
         this.id = id;
         this.name = name;
         this.score = score;
+        this.worth = worth;
     }
 
     public String getId() {
@@ -26,5 +29,9 @@ public class Rank {
 
     public int getScore() {
         return score;
+    }
+
+    public int getWorth() {
+        return worth;
     }
 }

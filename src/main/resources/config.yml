@@ -14,31 +14,51 @@ db:
   name: mydb
 
 # The kill ranks.
-# The rank with the lowest score will cover any score under it.
+# The rank with the lowest score is the minimum score allowed.
 ranks:
   feeder:
     # The name of the rank. You can use chat colors here.
     name: Feeder
     # The minimum score needed to have this rank.
-    score: -1000000
+    score: -100
+    worth: 1
+  bungler:
+    name: Bungler
+    score: -50
+    worth: 1
   noob:
     name: Noob
-    score: -100
+    score: -20
+    worth: 1
+  recruit:
+    name: Recruit
+    score: -5
+    worth: 1
   novice:
     name: Novice
-    score: 10
+    score: 1
+    worth: 1
   apprentice:
     name: Apprentice
-    score: 50
+    score: 10
+    worth: 2
   journeyman:
     name: Journeyman
-    score: 100
+    score: 50
+    worth: 2
   adept:
     name: Adept
+    score: 100
+    worth: 5
+  master:
+    name: Master
     score: 200
+    worth: 10
   godlike:
     name: Godlike
     score: 500
+    worth: 20
   legendary:
     name: Legendary
     score: 1000
+    worth: 50

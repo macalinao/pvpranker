@@ -102,7 +102,8 @@ public class PvPRanker extends JavaPlugin {
         for (String id : s.getKeys(false)) {
             String name = s.getString(id + ".name", id);
             int score = s.getInt(id + ".score");
-            ranks.put(id, new Rank(id, name, score));
+            int worth = s.getInt(id + ".worth");
+            ranks.put(id, new Rank(id, name, score, worth));
         }
 
         // Calculate lowest rank

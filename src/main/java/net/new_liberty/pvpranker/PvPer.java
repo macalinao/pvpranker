@@ -23,6 +23,39 @@ public class PvPer {
      * @return
      */
     public int getScore() {
+        String query = "SELECT SUM(score) AS score "
+                + "FROM pvpr_scores "
+                + "WHERE player = ?";
+        Object res = plugin.getDb().get(query, 0, name);
+        if (res == null) {
+            return 0;
+        }
+        return ((Long) res).intValue();
+    }
+
+    /**
+     * Gets the score of this PvPer at the given milestone.
+     *
+     * @param milestone
+     * @return
+     */
+    public int getScore(String milestone) {
+        String query = "SELECT SUM(score) AS score "
+                + "FROM pvpr_scores "
+                + "WHERE player = ? AND milestone = ?";
+        Object res = plugin.getDb().get(query, 0, name, milestone);
+        if (res == null) {
+            return 0;
+        }
+        return ((Long) res).intValue();
+    }
+
+    /**
+     * Gets the kill count of this PvPer.
+     *
+     * @return
+     */
+    public int getKillCount() {
         String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ?";
@@ -34,12 +67,12 @@ public class PvPer {
     }
 
     /**
-     * Gets this player's score from the given milestone. Case sensitive.
+     * Gets this player's kill count from the given milestone. Case sensitive.
      *
      * @param milestone
      * @return
      */
-    public int getScore(String milestone) {
+    public int getKillCount(String milestone) {
         String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ? AND milestone = ?";
@@ -60,5 +93,17 @@ public class PvPer {
         String query = "INSERT INTO pvpr_kills (player, killed, milestone) "
                 + "VALUES (?, ?, ?)";
         plugin.getDb().update(query, name, killed, milestone);
+    }
+
+    /**
+     * Adds a specified amount to the player's score for the given milestone.
+     *
+     * @param amount
+     * @param milestone
+     */
+    public void addScore(int amount, String milestone) {
+        String query = "INSERT INTO pvpr_scores (player, milestone, score) VALUES (?, ?, ?) "
+                + "ON DUPLICATE KEY UPDATE score = score + ? WHERE player = ? AND milestone = ?";
+        plugin.getDb().update(query, name, milestone, amount, amount, name, milestone);
     }
 }
