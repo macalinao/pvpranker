@@ -1,11 +1,13 @@
 package net.new_liberty.pvpranker;
 
+import net.new_liberty.pvpranker.command.PvPCommand;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import net.new_liberty.pvpranker.command.PvPTopCommand;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -64,6 +66,7 @@ public class PvPRanker extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
 
         getCommand("pvp").setExecutor(new PvPCommand(this));
+        getCommand("pvptop").setExecutor(new PvPTopCommand(this));
     }
 
     @Override

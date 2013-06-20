@@ -7,8 +7,11 @@ main: net.new_liberty.pvpranker.PvPRanker
 
 commands:
     pvp:
-        description: PvPRanker main command
-        usage: /pvp <command>
+        description: Shows yours or a player's score.
+        usage: /pvp [player]
+    pvptop:
+        description: Lists the top PvPers on the server.
+        usage: /pvptop [milestone]
 
 permissions:
     pvpranker.admin:
