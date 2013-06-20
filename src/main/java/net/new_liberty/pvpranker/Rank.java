@@ -1,5 +1,7 @@
 package net.new_liberty.pvpranker;
 
+import org.bukkit.ChatColor;
+
 /**
  * Represents a PvP Rank.
  */
@@ -24,7 +26,7 @@ public class Rank {
     }
 
     public String getName() {
-        return name;
+        return ChatColor.translateAlternateColorCodes('&', name);
     }
 
     public int getScore() {
