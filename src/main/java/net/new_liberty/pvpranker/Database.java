@@ -57,7 +57,7 @@ public final class Database {
                 run.update(query, params);
             }
         } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not run database query '" + query + "'!", ex);
+            plugin.getLogger().log(Level.SEVERE, "Could not run database query '" + query + "'!", ex);
         }
     }
 
@@ -79,7 +79,7 @@ public final class Database {
                 return run.query(query, handler);
             }
         } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, "[PvPRanker] Could not execute database query '" + query + "'!", ex);
+            plugin.getLogger().log(Level.SEVERE, "Could not execute database query '" + query + "'!", ex);
         }
         return null;
     }
