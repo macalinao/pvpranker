@@ -48,7 +48,7 @@ public class PvPRanker extends JavaPlugin {
         String dbName = getConfig().getString("db.name");
         db = new Database(this, dbUser, dbPass, dbHost, dbPort, dbName);
         if (!db.isValid()) {
-            getLogger().log(Level.SEVERE, "[PvPRanker] Could not connect to database. Disabling plugin.");
+            getLogger().log(Level.SEVERE, "Could not connect to database. Disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }

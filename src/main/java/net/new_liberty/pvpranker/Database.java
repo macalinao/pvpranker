@@ -6,21 +6,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 /**
  * Database stuff. MySQL sucks.
  */
 public final class Database {
-    private static final ResultSetHandler<Object> VALUE_HANDLER = new ResultSetHandler<Object>() {
-        @Override
-        public Object handle(ResultSet rs) throws SQLException {
-            if (!rs.next()) {
-                return null;
-            }
-
-            return rs.getObject("value");
-        }
-    };
+    private final ResultSetHandler SCALAR_HANDLER = new ScalarHandler();
 
     private final PvPRanker plugin;
 
@@ -93,7 +85,7 @@ public final class Database {
     }
 
     /**
-     * Gets a value from the database. The column name must be "value".
+     * Gets a value from the database. The column desired must be the first.
      *
      * @param query
      * @param def The default value to return if the value is null.
@@ -101,7 +93,7 @@ public final class Database {
      * @return
      */
     public Object get(String query, Object def, Object... params) {
-        Object ret = query(query, VALUE_HANDLER, params);
+        Object ret = query(query, SCALAR_HANDLER, params);
         if (ret == null) {
             return def;
         }
