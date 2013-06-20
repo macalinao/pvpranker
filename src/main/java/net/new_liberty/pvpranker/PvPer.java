@@ -1,7 +1,13 @@
 package net.new_liberty.pvpranker;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+
 /**
  * Wrapper class to interact with the database in an object-oriented fashion.
+ *
+ * Use this class in a different thread so the main thread isn't blocked with
+ * database calls.
  */
 public class PvPer {
     private final PvPRanker plugin;
@@ -15,6 +21,15 @@ public class PvPer {
 
     public String getName() {
         return name;
+    }
+
+    /**
+     * Gets the player this PvPer represents.
+     *
+     * @return Returns null if the player is not logged in.
+     */
+    public Player getPlayer() {
+        return Bukkit.getPlayerExact(name);
     }
 
     /**
@@ -48,6 +63,25 @@ public class PvPer {
             return 0;
         }
         return ((Long) res).intValue();
+    }
+
+    /**
+     * Gets this player's rank.
+     *
+     * @return
+     */
+    public Rank getRank() {
+        return plugin.getRank(getScore());
+    }
+
+    /**
+     * Gets this player's rank at the given milestone.
+     *
+     * @param milestone
+     * @return
+     */
+    public Rank getRank(String milestone) {
+        return plugin.getRank(getScore(milestone));
     }
 
     /**

@@ -149,10 +149,19 @@ public class PvPRanker extends JavaPlugin {
     }
 
     /**
+     * Gets the lowest rank possible.
+     *
+     * @return
+     */
+    public Rank getLowestRank() {
+        return lowest;
+    }
+
+    /**
      * Gets a rank from a score.
      *
      * @param score
-     * @return
+     * @return Returns null if the score is below the lowest rank.
      */
     public Rank getRank(int score) {
         Rank ret = null;
@@ -169,11 +178,6 @@ public class PvPRanker extends JavaPlugin {
             if (rank.getScore() > ret.getScore()) {
                 ret = rank;
             }
-        }
-
-        // Get lowest rank if necessary
-        if (ret == null) {
-            ret = lowest;
         }
 
         return ret;
