@@ -56,12 +56,22 @@ public class PvPRanker extends JavaPlugin {
         }
 
         // Create tables
+
+        // Holds kill counts
         db.update("CREATE TABLE IF NOT EXISTS pvpr_kills ("
                 + "id INT(10) NOT NULL AUTO_INCREMENT,"
                 + "player varchar(16) NOT NULL,"
                 + "killed varchar(16) NOT NULL,"
                 + "milestone varchar(255) NOT NULL,"
+                + "time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                 + "PRIMARY KEY (id));");
+
+        // Scores
+        db.update("CREATE TABLE IF NOT EXISTS pvpr_scores ("
+                + "player varchar(16) NOT NULL,"
+                + "milestone varchar(255) NOT NULL,"
+                + "scpre INT(8) NOT NULL,"
+                + "PRIMARY KEY (player, milestone));");
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
 
