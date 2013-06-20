@@ -36,7 +36,7 @@ public class PvPTopCommand implements CommandExecutor {
                 final LinkedHashMap<String, Integer> map = plugin.generateScoreReport(10, theMilestone);
                 sender.sendMessage(ChatColor.YELLOW + "== PvP Top Scores ==");
                 if (map.isEmpty()) {
-                    sender.sendMessage(ChatColor.GREEN + "Nobody has killed anyone yet.");
+                    sender.sendMessage(ChatColor.GREEN + "Nobody " + (theMilestone == null ? "has killed anyone yet" : "killed anyone during " + theMilestone) + ".");
 
                 } else {
                     int i = 1;
