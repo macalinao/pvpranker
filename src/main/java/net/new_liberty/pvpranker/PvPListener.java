@@ -20,25 +20,31 @@ public class PvPListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onEntityDamage(EntityDamageByEntityEvent event) {
         Entity hurt = event.getEntity();
-        if (hurt instanceof Player) {
-            Player player = (Player) hurt;
-            if (player.getHealth() <= 0) {
-                Entity cause = event.getDamager();
-                if (cause instanceof Player) {
-                    Player damager = (Player) cause;
-
-                    final PvPer hurtPvPer = plugin.getPvPer(player.getName());
-                    final PvPer causePvPer = plugin.getPvPer(damager.getName());
-                    plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
-                        @Override
-                        public void run() {
-                            // TODO: Replace placeholders
-                            hurtPvPer.setScore("placeholder", hurtPvPer.getScore() - 1);
-                            causePvPer.setScore("placeholder", causePvPer.getScore() + 1);
-                        }
-                    });
-                }
-            }
+        if (!(hurt instanceof Player)) {
+            return;
         }
+
+        Player player = (Player) hurt;
+        if (player.getHealth() > 0) {
+            return;
+        }
+
+        Entity cause = event.getDamager();
+        if (!(cause instanceof Player)) {
+            return;
+        }
+
+        Player damager = (Player) cause;
+
+        final String name = player.getName();
+        final String damagerName = damager.getName();
+        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
+            @Override
+            public void run() {
+                // TODO: Replace placeholder milestone
+                PvPer causePvPer = plugin.getPvPer(damagerName);
+                causePvPer.addKill("placeholder", name);
+            }
+        });
     }
 }

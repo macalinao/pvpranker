@@ -1,11 +1,5 @@
 package net.new_liberty.pvpranker;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  * Wrapper class to interact with the database in an object-oriented fashion.
  */
@@ -29,14 +23,14 @@ public class PvPer {
      * @return
      */
     public int getScore() {
-        String query = "SELECT SUM(score) AS value "
-                + "FROM pvpr_scores "
+        String query = "SELECT COUNT(id) AS value "
+                + "FROM pvpr_kills "
                 + "WHERE player = ?";
         Object res = plugin.getDb().get(query, 0, name);
         if (res == null) {
             return 0;
         }
-        return ((Integer) res).intValue();
+        return ((Long) res).intValue();
     }
 
     /**
@@ -46,27 +40,25 @@ public class PvPer {
      * @return
      */
     public int getScore(String milestone) {
-        String query = "SELECT score AS value "
-                + "FROM pvpr_scores "
+        String query = "SELECT COUNT(id) AS value "
+                + "FROM pvpr_kills "
                 + "WHERE player = ? AND milestone = ?";
         Object res = plugin.getDb().get(query, 0, name, milestone);
         if (res == null) {
             return 0;
         }
-        return ((Integer) res).intValue();
+        return ((Long) res).intValue();
     }
 
     /**
-     * Sets the player's score for a given milestone.
+     * Adds a kill for the player.
      *
-     * @param milestone
+     * @param killed The player killed.
      * @param score
      */
-    public void setScore(String milestone, int score) {
-        String query = "INSERT INTO pvpr_scores (player, milestone, score) "
-                + "VALUES (?, ?, ?) "
-                + "ON DUPLICATE KEY UPDATE pvpr_scores SET score = ? "
-                + "WHERE player = ? AND milestone = ?";
-        plugin.getDb().update(query, name, milestone, score, score, name, milestone);
+    public void addKill(String killed, String milestone) {
+        String query = "INSERT INTO pvpr_kills (player, killed, milestone) "
+                + "VALUES (?, ?, ?)";
+        plugin.getDb().update(query, name, killed, milestone);
     }
 }

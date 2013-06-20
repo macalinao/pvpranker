@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -55,11 +54,12 @@ public class PvPRanker extends JavaPlugin {
         }
 
         // Create tables
-        db.update("CREATE TABLE IF NOT EXISTS pvpr_scores ("
+        db.update("CREATE TABLE IF NOT EXISTS pvpr_kills ("
+                + "id INT(10) NOT NULL AUTO_INCREMENT,"
                 + "player varchar(16) NOT NULL,"
+                + "killed varchar(16) NOT NULL,"
                 + "milestone varchar(255) NOT NULL,"
-                + "score int NOT NULL DEFAULT 0,"
-                + "PRIMARY KEY (player, milestone));");
+                + "PRIMARY KEY (id));");
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
 
@@ -174,7 +174,7 @@ public class PvPRanker extends JavaPlugin {
      * and values are the player's score.
      */
     public LinkedHashMap<String, Integer> generateScoreReport(int limit) {
-        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores LIMIT ? ORDER BY score DESC";
+        String query = "SELECT player, COUNT(id) AS score FROM pvpr_kills GROUP BY player ORDER BY score DESC LIMIT ?";
         return db.query(query, REPORT_HANDLER, limit);
     }
 
@@ -192,7 +192,7 @@ public class PvPRanker extends JavaPlugin {
             return generateScoreReport(limit);
         }
 
-        String query = "SELECT player, score FROM pvpr_scores WHERE milestone = ? LIMIT ? ORDER BY score DESC";
+        String query = "SELECT player, milestone, COUNT(id) AS score FROM pvpr_kills WHERE milestone = ? GROUP BY player, milestone ORDER BY score DESC LIMIT ?";
         return db.query(query, REPORT_HANDLER, milestone, limit);
     }
 }
