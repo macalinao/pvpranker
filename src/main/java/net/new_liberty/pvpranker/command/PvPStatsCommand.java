@@ -42,7 +42,6 @@ public class PvPStatsCommand implements CommandExecutor {
                 int score = pvper.getScore(plugin.getMilestone());
                 sender.sendMessage(ChatColor.GREEN + "Rank: " + plugin.getRank(score).getName());
                 sender.sendMessage(ChatColor.GREEN + "Score: " + score);
-                return;
             }
         });
 
