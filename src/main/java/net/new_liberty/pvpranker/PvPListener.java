@@ -47,8 +47,8 @@ public class PvPListener implements Listener {
                 PvPer killed = plugin.getPvPer(killedName);
 
                 // Score
-                int killerScore = killer.getScore("placeholder");
-                int killedScore = killed.getScore("placeholder");
+                int killerScore = killer.getScore(plugin.getMilestone());
+                int killedScore = killed.getScore(plugin.getMilestone());
 
                 // Calculate worth
                 Rank oldKilledRank = plugin.getRank(killedScore); // Initial rank
@@ -77,8 +77,8 @@ public class PvPListener implements Listener {
                 }
 
                 // If worth is not 0, let's transfer worth appropriately
-                killer.addScore(worth, "placeholder");
-                killed.addScore(-worth, "placeholder");
+                killer.addScore(worth, plugin.getMilestone());
+                killed.addScore(-worth, plugin.getMilestone());
 
                 Player rp = killer.getPlayer();
                 if (rp != null) {
@@ -104,7 +104,7 @@ public class PvPListener implements Listener {
                     }
                 }
 
-                killer.addKill("placeholder", killedName);
+                killer.addKill(plugin.getMilestone(), killedName);
             }
         });
     }

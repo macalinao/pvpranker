@@ -13,6 +13,9 @@ db:
   # Database name
   name: mydb
 
+# The current milestone.
+milestone: default
+
 # The kill ranks.
 # The rank with the lowest score is the minimum score allowed.
 ranks:

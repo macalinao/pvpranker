@@ -32,6 +32,8 @@ public class PvPRanker extends JavaPlugin {
 
     private Map<String, Rank> ranks;
 
+    private String milestone;
+
     private Rank lowest = null;
 
     @Override
@@ -92,6 +94,8 @@ public class PvPRanker extends JavaPlugin {
      * Loads the config.
      */
     private void loadConfig() {
+        milestone = getConfig().getString("milestone", "default");
+
         // Load ranks
         ranks = new HashMap<String, Rank>();
         ConfigurationSection s = getConfig().getConfigurationSection("ranks");
@@ -136,6 +140,15 @@ public class PvPRanker extends JavaPlugin {
      */
     public PvPer getPvPer(String name) {
         return new PvPer(this, name);
+    }
+
+    /**
+     * Gets the milestone the server is currently on.
+     *
+     * @return
+     */
+    public String getMilestone() {
+        return milestone;
     }
 
     /**
