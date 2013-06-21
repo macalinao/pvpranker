@@ -2,17 +2,14 @@ package net.new_liberty.pvpranker.command;
 
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
-import java.util.concurrent.Callable;
 import net.new_liberty.pvpranker.PvPRanker;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 /**
- *
- * @author simplyianm
+ * Displays the top PvPers on the server.
  */
 public class PvPTopCommand implements CommandExecutor {
     private final PvPRanker plugin;
