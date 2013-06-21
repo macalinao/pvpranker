@@ -3,6 +3,7 @@ package net.new_liberty.pvpranker.command;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
 import net.new_liberty.pvpranker.PvPRanker;
+import net.new_liberty.pvpranker.Rank;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class PvPTopCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
-        String milestone = null;
+        String milestone = plugin.getMilestone();
         if (args.length > 0) {
             milestone = args[0];
         }
@@ -33,12 +34,14 @@ public class PvPTopCommand implements CommandExecutor {
                 final LinkedHashMap<String, Integer> map = plugin.generateScoreReport(10, theMilestone);
                 sender.sendMessage(ChatColor.YELLOW + "== PvP Top Scores ==");
                 if (map.isEmpty()) {
-                    sender.sendMessage(ChatColor.GREEN + "Nobody " + (theMilestone == null ? "has killed anyone yet" : "killed anyone during " + theMilestone) + ".");
+                    sender.sendMessage(ChatColor.GREEN + "Nobody " + (theMilestone.equals(plugin.getMilestone()) ? "has killed anyone yet" : "killed anyone during " + theMilestone) + ".");
 
                 } else {
                     int i = 1;
                     for (Entry<String, Integer> playerScore : map.entrySet()) {
-                        sender.sendMessage(ChatColor.GREEN + Integer.toString(i++) + ") " + playerScore.getKey() + " - " + playerScore.getValue());
+                        int score = playerScore.getValue().intValue();
+                        Rank rank = plugin.getRank(score);
+                        sender.sendMessage(ChatColor.GREEN + Integer.toString(i++) + ") " + playerScore.getKey() + ": " + score + " " + rank.getName());
                     }
                 }
             }
