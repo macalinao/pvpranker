@@ -34,11 +34,6 @@ public class PvPStatsCommand implements CommandExecutor {
 
                 sender.sendMessage(ChatColor.YELLOW + "=== " + name + "'s PvP Stats ===");
 
-                if (pvper.getKillCount(plugin.getMilestone()) == 1) {
-                    sender.sendMessage(ChatColor.GREEN + name + " has no PvP history since the last milestone.");
-                    return;
-                }
-
                 int score = pvper.getScore(plugin.getMilestone());
                 sender.sendMessage(ChatColor.GREEN + "Rank: " + plugin.getRank(score).getName());
                 sender.sendMessage(ChatColor.GREEN + "Score: " + score);
