@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import net.new_liberty.pvpranker.command.PvPMilestoneCommand;
 import net.new_liberty.pvpranker.command.PvPTopCommand;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.bukkit.Bukkit;
@@ -78,6 +79,7 @@ public class PvPRanker extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
 
         getCommand("pvp").setExecutor(new PvPCommand(this));
+        getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
         getCommand("pvptop").setExecutor(new PvPTopCommand(this));
     }
 
@@ -149,6 +151,15 @@ public class PvPRanker extends JavaPlugin {
      */
     public String getMilestone() {
         return milestone;
+    }
+
+    /**
+     * Sets the milestone of the server.
+     */
+    public void setMilestone(String milestone) {
+        this.milestone = milestone;
+        getConfig().set("milestone", milestone);
+        saveConfig();
     }
 
     /**

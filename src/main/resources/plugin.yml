@@ -1,7 +1,8 @@
 name: PvPRanker
+version: 1.0
 description: Ranks people based on how good they are in PvP.
 author: AlbireoX
-version: 1.0
+website: http://www.new-liberty.net/
 
 main: net.new_liberty.pvpranker.PvPRanker
 
@@ -9,11 +10,16 @@ commands:
     pvp:
         description: Shows yours or a player's score.
         usage: /pvp [player]
+    pvpmilestone:
+        description: Sets the milestone of the server.
+        usage: '&cUsage: /pvpmilestone <milestone>'
+        permission: pvpranker.*
+        permission-message: You are not allowed to use this command.
     pvptop:
         description: Lists the top PvPers on the server.
         usage: /pvptop [milestone]
 
 permissions:
-    pvpranker.admin:
+    pvpranker.*:
         description: PvPRanker admin permission
 
