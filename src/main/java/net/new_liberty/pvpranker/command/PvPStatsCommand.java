@@ -8,10 +8,10 @@ import org.bukkit.command.CommandSender;
 /**
  * PvP Command
  */
-public class PvPCommand implements CommandExecutor {
+public class PvPStatsCommand implements CommandExecutor {
     private final PvPRanker plugin;
 
-    public PvPCommand(PvPRanker plugin) {
+    public PvPStatsCommand(PvPRanker plugin) {
         this.plugin = plugin;
     }
 

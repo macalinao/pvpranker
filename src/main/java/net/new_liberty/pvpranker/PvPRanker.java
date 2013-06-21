@@ -1,6 +1,6 @@
 package net.new_liberty.pvpranker;
 
-import net.new_liberty.pvpranker.command.PvPCommand;
+import net.new_liberty.pvpranker.command.PvPStatsCommand;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -78,8 +78,8 @@ public class PvPRanker extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
 
-        getCommand("pvp").setExecutor(new PvPCommand(this));
         getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
+        getCommand("pvpstats").setExecutor(new PvPStatsCommand(this));
         getCommand("pvptop").setExecutor(new PvPTopCommand(this));
     }
 
