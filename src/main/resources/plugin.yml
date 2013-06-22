@@ -9,15 +9,15 @@ main: net.new_liberty.pvpranker.PvPRanker
 commands:
     pvpmilestone:
         description: Sets the milestone of the server.
-        usage: '&cUsage: /pvpmilestone <milestone>'
+        usage: 'Usage: /pvpmilestone <milestone>'
         permission: pvpranker.*
         permission-message: You are not allowed to use this command.
     pvpstats:
         description: Shows the PvP statistics of a player.
-        usage: '&cUsage: /pvpstats [player]'
+        usage: 'Usage: /pvpstats [player]'
     pvptop:
         description: Lists the top PvPers on the server.
-        usage: '&cUsage: /pvptop [milestone]'
+        usage: 'Usage: /pvptop [milestone]'
 
 permissions:
     pvpranker.*:
