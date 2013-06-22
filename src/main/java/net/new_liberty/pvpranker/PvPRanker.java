@@ -45,6 +45,15 @@ public class PvPRanker extends JavaPlugin {
         // Load
         loadConfig();
 
+        PvPListener listener = new PvPListener(this);
+
+        // Hook into PEX
+        if (!listener.setupChat()) {
+            getLogger().log(Level.SEVERE, "Could not set up hook into permissions plugin for groups. Disabling plugin.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
         // Load DB info
         String dbUser = getConfig().getString("db.user");
         String dbPass = getConfig().getString("db.pass", "");
@@ -76,7 +85,7 @@ public class PvPRanker extends JavaPlugin {
                 + "score INT(8) NOT NULL,"
                 + "PRIMARY KEY (player, milestone));");
 
-        Bukkit.getPluginManager().registerEvents(new PvPListener(this), this);
+        Bukkit.getPluginManager().registerEvents(listener, this);
 
         getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
         getCommand("pvpstats").setExecutor(new PvPStatsCommand(this));

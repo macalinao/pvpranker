@@ -5,6 +5,7 @@ author: AlbireoX
 website: http://www.new-liberty.net/
 
 main: net.new_liberty.pvpranker.PvPRanker
+depend: [Factions, Vault]
 
 commands:
     pvpmilestone:

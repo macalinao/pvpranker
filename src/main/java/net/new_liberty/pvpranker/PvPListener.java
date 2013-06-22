@@ -1,5 +1,8 @@
 package net.new_liberty.pvpranker;
 
+import com.massivecraft.factions.FPlayer;
+import com.massivecraft.factions.FPlayers;
+import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -8,6 +11,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
  * PvPRanker listener
@@ -15,8 +20,32 @@ import org.bukkit.event.entity.EntityDeathEvent;
 public class PvPListener implements Listener {
     private final PvPRanker plugin;
 
+    private Chat chat;
+
     public PvPListener(PvPRanker plugin) {
         this.plugin = plugin;
+    }
+
+    public boolean setupChat() {
+        RegisteredServiceProvider<Chat> chatProvider = plugin.getServer().getServicesManager().getRegistration(Chat.class);
+        if (chatProvider != null) {
+            chat = chatProvider.getProvider();
+        }
+        return (chat != null);
+    }
+
+    @EventHandler
+    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+        Player p = event.getPlayer();
+
+        FPlayer fplayer = FPlayers.i.get(p);
+        String fprefix = fplayer.hasFaction() ? (fplayer.getRole().getPrefix() + fplayer.getFaction().getTag()) : "";
+        String rank = plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName();
+        String prefix = chat.getPlayerPrefix(p);
+
+        String format = fprefix + " " + ChatColor.WHITE + "{" + rank + ChatColor.WHITE + "}"
+                + prefix + " " + p.getName() + ": " + chat.getPlayerSuffix(p) + "%2$s";
+        event.setFormat(format);
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
