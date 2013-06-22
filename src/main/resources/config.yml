@@ -23,45 +23,45 @@ ranks:
     # The name of the rank. You can use chat colors here.
     name: '&7Feeder'
     # The minimum score needed to have this rank.
-    score: -100
+    score: -1000
     worth: 1
   bungler:
     name: '&8Bungler'
-    score: -50
-    worth: 1
+    score: -500
+    worth: 2
   noob:
     name: '&3Noob'
-    score: -20
-    worth: 1
+    score: -200
+    worth: 3
   recruit:
     name: '&bRecruit'
-    score: -5
-    worth: 1
+    score: -50
+    worth: 5
   novice:
     name: '&9Novice'
-    score: 1
-    worth: 1
+    score: 10
+    worth: 10
   apprentice:
     name: '&6Apprentice'
-    score: 10
-    worth: 2
+    score: 100
+    worth: 20
   journeyman:
     name: '&bJ&6o&bu&6r&bn&6e&by&6m&ba&6n'
-    score: 50
-    worth: 2
-  adept:
-    name: '&4Adept'
-    score: 100
-    worth: 5
-  master:
-    name: '&4M&ea&4s&et&4e&er'
-    score: 200
-    worth: 10
-  godlike:
-    name: '&4&lGOD&e&lLIKE&r'
     score: 500
     worth: 20
-  legendary:
-    name: '&a&lL&b&lE&c&lG&d&lE&e&lN&d&lD&c&lA&b&lR&a&lY&r'
+  adept:
+    name: '&4Adept'
     score: 1000
     worth: 50
+  master:
+    name: '&4M&ea&4s&et&4e&er'
+    score: 2000
+    worth: 100
+  godlike:
+    name: '&4&lGOD&e&lLIKE&r'
+    score: 5000
+    worth: 200
+  legendary:
+    name: '&a&lL&b&lE&c&lG&d&lE&e&lN&d&lD&c&lA&b&lR&a&lY&r'
+    score: 10000
+    worth: 500
