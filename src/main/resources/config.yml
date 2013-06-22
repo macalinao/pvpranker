@@ -32,11 +32,11 @@ ranks:
   noob:
     name: '&3Noob'
     score: -200
-    worth: 3
+    worth: 5
   recruit:
     name: '&bRecruit'
     score: -50
-    worth: 5
+    worth: 8
   novice:
     name: '&9Novice'
     score: 10
