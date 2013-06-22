@@ -137,7 +137,7 @@ public class PvPer {
      */
     public void addScore(int amount, String milestone) {
         String query = "INSERT INTO pvpr_scores (player, milestone, score) VALUES (?, ?, ?) "
-                + "ON DUPLICATE KEY UPDATE score = score + ? WHERE player = ? AND milestone = ?";
-        plugin.getDb().update(query, name, milestone, amount, amount, name, milestone);
+                + "ON DUPLICATE KEY UPDATE score = score + ?";
+        plugin.getDb().update(query, name, milestone, amount, amount);
     }
 }
