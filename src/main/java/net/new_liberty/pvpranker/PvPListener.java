@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 /**
  * PvPRanker listener
@@ -19,18 +20,22 @@ public class PvPListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityDamage(EntityDamageByEntityEvent event) {
-        Entity hurt = event.getEntity();
-        if (!(hurt instanceof Player)) {
+    public void onEntityDeath(EntityDeathEvent event) {
+        Entity victim = event.getEntity();
+        if (!(victim instanceof Player)) {
             return;
         }
 
-        Player player = (Player) hurt;
+        Player player = (Player) victim;
         if (player.getHealth() > 0) {
             return;
         }
 
-        Entity cause = event.getDamager();
+        if (!(victim.getLastDamageCause() instanceof EntityDamageByEntityEvent)) {
+            return;
+        }
+
+        Entity cause = ((EntityDamageByEntityEvent) victim.getLastDamageCause()).getDamager();
         if (!(cause instanceof Player)) {
             return;
         }
