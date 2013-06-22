@@ -105,7 +105,7 @@ public class PvPListener implements Listener {
                     Rank killedRank = plugin.getRank(newKilledScore);
 
                     if (!oldKilledRank.equals(killedRank)) {
-                        rp.sendMessage(ChatColor.RED + "Unfortunately, you have been demoted to " + killedRank.getName() + ChatColor.RED + ".");
+                        dp.sendMessage(ChatColor.RED + "Unfortunately, you have been demoted to " + killedRank.getName() + ChatColor.RED + ".");
                     }
                 }
 
