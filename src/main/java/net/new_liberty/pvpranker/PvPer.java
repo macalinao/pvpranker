@@ -38,7 +38,7 @@ public class PvPer {
      * @return
      */
     public int getScore() {
-        String query = "SELECT SUM(score) AS score "
+        String query = "SELECT CAST(SUM(score) AS SIGNED) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ?";
         Object res = plugin.getDb().get(query, 0, name);
@@ -55,7 +55,7 @@ public class PvPer {
      * @return
      */
     public int getScore(String milestone) {
-        String query = "SELECT SUM(score) AS score "
+        String query = "SELECT CAST(SUM(score) AS SIGNED) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ? AND milestone = ?";
         Object res = plugin.getDb().get(query, 0, name, milestone);
@@ -90,14 +90,14 @@ public class PvPer {
      * @return
      */
     public int getKillCount() {
-        String query = "SELECT COUNT(id) AS value "
+        String query = "SELECT CAST(COUNT(id) AS SIGNED) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ?";
         Object res = plugin.getDb().get(query, 0, name);
         if (res == null) {
             return 0;
         }
-        return ((Long) res).intValue();
+        return ((Integer) res).intValue();
     }
 
     /**
@@ -107,14 +107,14 @@ public class PvPer {
      * @return
      */
     public int getKillCount(String milestone) {
-        String query = "SELECT COUNT(id) AS value "
+        String query = "SELECT CAST(COUNT(id) AS SIGNED) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ? AND milestone = ?";
         Object res = plugin.getDb().get(query, 0, name, milestone);
         if (res == null) {
             return 0;
         }
-        return ((Long) res).intValue();
+        return ((Integer) res).intValue();
     }
 
     /**
