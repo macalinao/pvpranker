@@ -81,6 +81,8 @@ public class PvPRanker extends JavaPlugin {
         getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
         getCommand("pvpstats").setExecutor(new PvPStatsCommand(this));
         getCommand("pvptop").setExecutor(new PvPTopCommand(this));
+
+        getLogger().log(Level.INFO, "Plugin enabled.");
     }
 
     @Override
