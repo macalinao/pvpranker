@@ -45,7 +45,7 @@ public class PvPer {
         if (res == null) {
             return 0;
         }
-        return ((Long) res).intValue();
+        return ((Integer) res).intValue();
     }
 
     /**
@@ -62,7 +62,7 @@ public class PvPer {
         if (res == null) {
             return 0;
         }
-        return ((Long) res).intValue();
+        return ((Integer) res).intValue();
     }
 
     /**
