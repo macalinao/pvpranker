@@ -38,14 +38,10 @@ public class PvPer {
      * @return
      */
     public int getScore() {
-        String query = "SELECT CAST(SUM(score) AS SIGNED) AS score "
+        String query = "SELECT SUM(score) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ?";
-        Object res = plugin.getDb().get(query, 0, name);
-        if (res == null) {
-            return 0;
-        }
-        return ((Integer) res).intValue();
+        return ((Number) plugin.getDb().get(query, 0, name)).intValue();
     }
 
     /**
@@ -55,14 +51,10 @@ public class PvPer {
      * @return
      */
     public int getScore(String milestone) {
-        String query = "SELECT CAST(SUM(score) AS SIGNED) AS score "
+        String query = "SELECT SUM(score) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ? AND milestone = ?";
-        Object res = plugin.getDb().get(query, 0, name, milestone);
-        if (res == null) {
-            return 0;
-        }
-        return ((Integer) res).intValue();
+        return ((Number) plugin.getDb().get(query, 0, name, milestone)).intValue();
     }
 
     /**
@@ -90,14 +82,10 @@ public class PvPer {
      * @return
      */
     public int getKillCount() {
-        String query = "SELECT CAST(COUNT(id) AS SIGNED) AS value "
+        String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ?";
-        Object res = plugin.getDb().get(query, 0, name);
-        if (res == null) {
-            return 0;
-        }
-        return ((Integer) res).intValue();
+        return ((Number) plugin.getDb().get(query, 0, name)).intValue();
     }
 
     /**
@@ -107,14 +95,10 @@ public class PvPer {
      * @return
      */
     public int getKillCount(String milestone) {
-        String query = "SELECT CAST(COUNT(id) AS SIGNED) AS value "
+        String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ? AND milestone = ?";
-        Object res = plugin.getDb().get(query, 0, name, milestone);
-        if (res == null) {
-            return 0;
-        }
-        return ((Integer) res).intValue();
+        return ((Number) plugin.getDb().get(query, 0, name, milestone)).intValue();
     }
 
     /**
