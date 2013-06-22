@@ -109,7 +109,7 @@ public class PvPListener implements Listener {
                     }
                 }
 
-                killer.addKill(plugin.getMilestone(), killedName);
+                killer.addKill(killedName, plugin.getMilestone());
             }
         });
     }
