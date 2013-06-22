@@ -218,7 +218,7 @@ public class PvPRanker extends JavaPlugin {
      * and values are the player's score.
      */
     public LinkedHashMap<String, Integer> generateScoreReport(int limit) {
-        String query = "SELECT player, COUNT(id) AS score FROM pvpr_kills GROUP BY player ORDER BY score DESC LIMIT ?";
+        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores GROUP BY player ORDER BY score DESC LIMIT ?";
         return db.query(query, REPORT_HANDLER, limit);
     }
 
@@ -236,7 +236,7 @@ public class PvPRanker extends JavaPlugin {
             return generateScoreReport(limit);
         }
 
-        String query = "SELECT player, milestone, COUNT(id) AS score FROM pvpr_kills WHERE milestone = ? GROUP BY player, milestone ORDER BY score DESC LIMIT ?";
+        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores WHERE milestone = ? GROUP BY player, milestone ORDER BY score DESC LIMIT ?";
         return db.query(query, REPORT_HANDLER, milestone, limit);
     }
 }
