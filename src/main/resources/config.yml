@@ -58,10 +58,10 @@ ranks:
     score: 200
     worth: 10
   godlike:
-    name: '&l&4GOD&eLIKE&r'
+    name: '&4&lGOD&e&lLIKE&r'
     score: 500
     worth: 20
   legendary:
-    name: '&l&aL&bE&cG&dE&eN&dD&cA&bR&aY&r'
+    name: '&a&lL&b&lE&c&lG&d&lE&e&lN&d&lD&c&lA&b&lR&a&lY&r'
     score: 1000
     worth: 50
