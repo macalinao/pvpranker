@@ -1,8 +1,8 @@
 package net.new_liberty.pvpranker;
 
 import com.massivecraft.factions.FPlayers;
-import com.massivecraft.factions.Faction;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 /**
@@ -118,17 +118,18 @@ public class PvPer {
      * Adds a kill for the player.
      *
      * @param killed The player killed.
-     * @param score
+     * @param loc The location of the kill
+     * @param milestone
      */
-    public void addKill(String killed, String milestone) {
-        String query = "INSERT INTO pvpr_kills (player, killed, player_faction, killed_faction, milestone) "
-                + "VALUES (?, ?, ?, ?, ?)";
+    public void addKill(String killed, Location loc, String milestone) {
+        String query = "INSERT INTO pvpr_kills (player, killed, player_faction, killed_faction, world, x, y, z, milestone) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Let's hope this code works async
         String playerFaction = FPlayers.i.get(name).getFaction().getTag();
         String otherFaction = FPlayers.i.get(killed).getFaction().getTag();
 
-        plugin.getDb().update(query, name, killed, playerFaction, otherFaction, milestone);
+        plugin.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }
 
     /**

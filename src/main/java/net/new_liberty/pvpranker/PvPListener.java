@@ -4,6 +4,7 @@ import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,6 +72,7 @@ public class PvPListener implements Listener {
 
         Player damager = (Player) cause;
 
+        final Location loc = cause.getLocation();
         final String killedName = player.getName();
         final String killerName = damager.getName();
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
@@ -81,7 +83,7 @@ public class PvPListener implements Listener {
                 PvPer killed = plugin.getPvPer(killedName);
 
                 // Save kill
-                killer.addKill(killedName, plugin.getMilestone());
+                killer.addKill(killedName, loc, plugin.getMilestone());
 
                 int count = killer.getDayKillCount(killedName);
 
