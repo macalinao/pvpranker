@@ -2,6 +2,7 @@ package net.new_liberty.pvpranker;
 
 import com.massivecraft.factions.FPlayers;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -126,8 +127,8 @@ public class PvPer {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Let's hope this code works async
-        String playerFaction = FPlayers.i.get(name).getFaction().getTag();
-        String otherFaction = FPlayers.i.get(killed).getFaction().getTag();
+        String playerFaction = ChatColor.stripColor(FPlayers.i.get(name).getFaction().getTag());
+        String otherFaction = ChatColor.stripColor(FPlayers.i.get(killed).getFaction().getTag());
 
         plugin.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }
