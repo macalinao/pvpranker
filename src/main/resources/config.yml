@@ -16,6 +16,9 @@ db:
 # The current milestone.
 milestone: default
 
+# The maximum number of times a player can kill another player in a day.
+max-kills-per-day: 10
+
 # The kill ranks.
 # The rank with the lowest score is the minimum score allowed.
 ranks:
