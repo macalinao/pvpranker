@@ -80,6 +80,26 @@ public class PvPListener implements Listener {
                 PvPer killer = plugin.getPvPer(killerName);
                 PvPer killed = plugin.getPvPer(killedName);
 
+                // Save kill
+                killer.addKill(killedName, plugin.getMilestone());
+
+                int count = killer.getDayKillCount(killedName);
+
+                // Check if there were too many kills
+                int max = plugin.getConfig().getInt("max-kills-per-day", 10);
+                if (count >= max) {
+                    Player rp = killer.getPlayer();
+                    if (rp != null) {
+                        rp.sendMessage(ChatColor.RED + "You have already killed " + killedName + " at least " + max + " times today, so you do not receive any points.");
+                    }
+
+                    Player dp = killed.getPlayer();
+                    if (dp != null) {
+                        dp.sendMessage(ChatColor.YELLOW + "You have not lost points for this death due to " + killerName + " already killing you at least " + max + " times today.");
+                    }
+                    return;
+                }
+
                 // Score
                 int killerScore = killer.getScore(plugin.getMilestone());
                 int killedScore = killed.getScore(plugin.getMilestone());
@@ -137,8 +157,6 @@ public class PvPListener implements Listener {
                         dp.sendMessage(ChatColor.RED + "Unfortunately, you have been demoted to " + killedRank.getName() + ChatColor.RED + ".");
                     }
                 }
-
-                killer.addKill(killedName, plugin.getMilestone());
             }
         });
     }
