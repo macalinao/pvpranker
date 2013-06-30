@@ -40,12 +40,14 @@ public class PvPListener implements Listener {
         Player p = event.getPlayer();
 
         FPlayer fplayer = FPlayers.i.get(p);
-        String fprefix = fplayer.hasFaction() ? (fplayer.getRole().getPrefix() + fplayer.getFaction().getTag()) : "";
-        String rank = plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName();
-        String prefix = chat.getPlayerPrefix(p);
+        String fprefix = "[" + (fplayer.hasFaction() ? (fplayer.getRole().getPrefix() + fplayer.getFaction().getTag()) : "") + "]";
+        String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
+        if (p.hasPermission("pvpranker.hiderank")) {
+            rank = "";
+        }
+        String prefix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerPrefix(p));
 
-        String format = fprefix + " " + ChatColor.WHITE + "{" + rank + ChatColor.WHITE + "}"
-                + prefix + " " + p.getName() + ": " + chat.getPlayerSuffix(p) + "%2$s";
+        String format = fprefix + rank + prefix + " " + p.getName() + ": " + chat.getPlayerSuffix(p) + "%2$s";
         event.setFormat(format);
     }
 
