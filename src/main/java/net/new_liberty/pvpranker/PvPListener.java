@@ -46,8 +46,9 @@ public class PvPListener implements Listener {
             rank = "";
         }
         String prefix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerPrefix(p));
+        String suffix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerSuffix(p));
 
-        String format = fprefix + rank + prefix + " " + p.getName() + ": " + chat.getPlayerSuffix(p) + "%2$s";
+        String format = fprefix + rank + prefix + " " + p.getName() + ": " + suffix + "%2$s";
         event.setFormat(format);
     }
 
