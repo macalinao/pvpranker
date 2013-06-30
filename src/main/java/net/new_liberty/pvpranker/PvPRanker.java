@@ -76,6 +76,10 @@ public class PvPRanker extends JavaPlugin {
                 + "killed varchar(16) NOT NULL,"
                 + "player_faction varchar(32) NOT NULL,"
                 + "killed_faction varchar(32) NOT NULL,"
+                + "world varchar(32) NOT NULL,"
+                + "x INT(10) NOT NULL,"
+                + "y INT(10) NOT NULL,"
+                + "z INT(10) NOT NULL,"
                 + "milestone varchar(255) NOT NULL,"
                 + "time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                 + "PRIMARY KEY (id));");
