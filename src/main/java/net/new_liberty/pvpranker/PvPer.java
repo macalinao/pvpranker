@@ -110,7 +110,7 @@ public class PvPer {
      * @return
      */
     public int getDayKillCount(String killed) {
-        String query = "SELEC COUNT(id) AS value FROM pvpr_kills WHERE player = ? AND killed = ? AND date > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)";
+        String query = "SELECT COUNT(id) AS value FROM pvpr_kills WHERE player = ? AND killed = ? AND date > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)";
         return ((Number) plugin.getDb().get(query, 0, name, killed)).intValue();
     }
 
