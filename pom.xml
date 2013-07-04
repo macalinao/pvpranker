@@ -17,20 +17,8 @@
 
     <repositories>
         <repository>
-            <id>bukkit-repo</id>
-            <url>http://repo.bukkit.org/content/groups/public/</url>
-        </repository>
-        <repository>
-            <id>fm-repo</id>
-            <url>http://repo.feildmaster.com/</url>
-        </repository>
-        <repository>
-            <id>herocraft-repo</id>
-            <url>http://ci.herocraftonline.com/plugin/repository/everything/</url>
-        </repository>
-        <repository>
-            <id>new-liberty-repo</id>
-            <url>http://ci.new-liberty.net/plugin/repository/everything/</url>
+            <id>nl-repo</id>
+            <url>http://nexus.new-liberty.net/content/groups/public/</url>
         </repository>
     </repositories>
 
