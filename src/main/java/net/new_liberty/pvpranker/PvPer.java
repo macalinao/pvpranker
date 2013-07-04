@@ -1,6 +1,8 @@
 package net.new_liberty.pvpranker;
 
-import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.entity.UPlayer;
+import com.massivecraft.factions.entity.UPlayerColl;
+import com.massivecraft.factions.entity.UPlayerColls;
 import com.simplyian.easydb.EasyDB;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -128,8 +130,9 @@ public class PvPer {
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Let's hope this code works async
-        String playerFaction = ChatColor.stripColor(FPlayers.i.get(name).getFaction().getTag());
-        String otherFaction = ChatColor.stripColor(FPlayers.i.get(killed).getFaction().getTag());
+        UPlayerColl coll = UPlayerColls.get().getForWorld(loc.getWorld().getName());
+        String playerFaction = ChatColor.stripColor(coll.get(name).getFaction().getName());
+        String otherFaction = ChatColor.stripColor(coll.get(killed).getFaction().getName());
 
         EasyDB.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }

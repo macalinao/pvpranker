@@ -1,7 +1,8 @@
 package net.new_liberty.pvpranker;
 
-import com.massivecraft.factions.FPlayer;
-import com.massivecraft.factions.FPlayers;
+import com.massivecraft.factions.FFlag;
+import com.massivecraft.factions.entity.UPlayer;
+import com.massivecraft.factions.entity.UPlayerColls;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -19,6 +20,10 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  * PvPRanker listener
  */
 public class PvPListener implements Listener {
+    private static class FPlayer {
+        public FPlayer() {
+        }
+    }
     private final PvPRanker plugin;
 
     private Chat chat;
@@ -39,8 +44,8 @@ public class PvPListener implements Listener {
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         Player p = event.getPlayer();
 
-        FPlayer fplayer = FPlayers.i.get(p);
-        String fprefix = "[" + (fplayer.hasFaction() ? (fplayer.getRole().getPrefix() + fplayer.getFaction().getTag()) : "") + "]";
+        UPlayer player = UPlayerColls.get().getForWorld(event.getPlayer().getWorld().getName()).get(p.getName());
+        String fprefix = "[" + (player.hasFaction() ? (player.getRole().getPrefix() + player.getFaction().getName()) : "") + "]";
         String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
         if (p.hasPermission("pvpranker.hiderank")) {
             rank = "";
