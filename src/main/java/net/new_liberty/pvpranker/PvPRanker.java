@@ -1,5 +1,7 @@
 package net.new_liberty.pvpranker;
 
+import com.simplyian.easydb.Database;
+import com.simplyian.easydb.EasyDB;
 import net.new_liberty.pvpranker.command.PvPStatsCommand;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,8 +30,6 @@ public class PvPRanker extends JavaPlugin {
             return ret;
         }
     };
-
-    private Database db;
 
     private Map<String, Rank> ranks;
 
@@ -60,7 +60,7 @@ public class PvPRanker extends JavaPlugin {
         String dbHost = getConfig().getString("db.host");
         int dbPort = getConfig().getInt("db.port");
         String dbName = getConfig().getString("db.name");
-        db = new Database(this, dbUser, dbPass, dbHost, dbPort, dbName);
+        Database db = EasyDB.getDb();
         if (!db.isValid()) {
             getLogger().log(Level.SEVERE, "Could not connect to database. Disabling plugin.");
             Bukkit.getPluginManager().disablePlugin(this);
@@ -106,7 +106,6 @@ public class PvPRanker extends JavaPlugin {
             return;
         }
         ranks = null;
-        db = null;
     }
 
     /**
@@ -140,15 +139,6 @@ public class PvPRanker extends JavaPlugin {
                 lowest = rank;
             }
         }
-    }
-
-    /**
-     * Gets our database.
-     *
-     * @return
-     */
-    public Database getDb() {
-        return db;
     }
 
     /**
@@ -234,7 +224,7 @@ public class PvPRanker extends JavaPlugin {
      */
     public LinkedHashMap<String, Integer> generateScoreReport(int limit) {
         String query = "SELECT player, SUM(score) AS score FROM pvpr_scores GROUP BY player ORDER BY score DESC LIMIT ?";
-        return db.query(query, REPORT_HANDLER, limit);
+        return EasyDB.getDb().query(query, REPORT_HANDLER, limit);
     }
 
     /**
@@ -252,6 +242,6 @@ public class PvPRanker extends JavaPlugin {
         }
 
         String query = "SELECT player, SUM(score) AS score FROM pvpr_scores WHERE milestone = ? GROUP BY player, milestone ORDER BY score DESC LIMIT ?";
-        return db.query(query, REPORT_HANDLER, milestone, limit);
+        return EasyDB.getDb().query(query, REPORT_HANDLER, milestone, limit);
     }
 }

@@ -1,6 +1,7 @@
 package net.new_liberty.pvpranker;
 
 import com.massivecraft.factions.FPlayers;
+import com.simplyian.easydb.EasyDB;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -44,7 +45,7 @@ public class PvPer {
         String query = "SELECT SUM(score) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ?";
-        return ((Number) plugin.getDb().get(query, 0, name)).intValue();
+        return ((Number) EasyDB.getDb().get(query, 0, name)).intValue();
     }
 
     /**
@@ -57,7 +58,7 @@ public class PvPer {
         String query = "SELECT SUM(score) AS score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ? AND milestone = ?";
-        return ((Number) plugin.getDb().get(query, 0, name, milestone)).intValue();
+        return ((Number) EasyDB.getDb().get(query, 0, name, milestone)).intValue();
     }
 
     /**
@@ -88,7 +89,7 @@ public class PvPer {
         String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ?";
-        return ((Number) plugin.getDb().get(query, 0, name)).intValue();
+        return ((Number) EasyDB.getDb().get(query, 0, name)).intValue();
     }
 
     /**
@@ -101,7 +102,7 @@ public class PvPer {
         String query = "SELECT COUNT(id) AS value "
                 + "FROM pvpr_kills "
                 + "WHERE player = ? AND milestone = ?";
-        return ((Number) plugin.getDb().get(query, 0, name, milestone)).intValue();
+        return ((Number) EasyDB.getDb().get(query, 0, name, milestone)).intValue();
     }
 
     /**
@@ -112,7 +113,7 @@ public class PvPer {
      */
     public int getDayKillCount(String killed) {
         String query = "SELECT COUNT(id) AS value FROM pvpr_kills WHERE player = ? AND killed = ? AND time > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY)";
-        return ((Number) plugin.getDb().get(query, 0, name, killed)).intValue();
+        return ((Number) EasyDB.getDb().get(query, 0, name, killed)).intValue();
     }
 
     /**
@@ -130,7 +131,7 @@ public class PvPer {
         String playerFaction = ChatColor.stripColor(FPlayers.i.get(name).getFaction().getTag());
         String otherFaction = ChatColor.stripColor(FPlayers.i.get(killed).getFaction().getTag());
 
-        plugin.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
+        EasyDB.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }
 
     /**
@@ -142,6 +143,6 @@ public class PvPer {
     public void addScore(int amount, String milestone) {
         String query = "INSERT INTO pvpr_scores (player, milestone, score) VALUES (?, ?, ?) "
                 + "ON DUPLICATE KEY UPDATE score = score + ?";
-        plugin.getDb().update(query, name, milestone, amount, amount);
+        EasyDB.getDb().update(query, name, milestone, amount, amount);
     }
 }
