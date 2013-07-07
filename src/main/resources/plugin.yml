@@ -1,10 +1,10 @@
-name: PvPRanker
-version: 1.0.0
-description: Ranks people based on how good they are in PvP.
+name: ${project.name}
+description: ${project.description}
+version: ${project.version}-b${buildNumber}
 author: AlbireoX
-website: http://www.new-liberty.net/
+website: ${project.url}
 
-main: net.new_liberty.pvpranker.PvPRanker
+main: ${mainClass}
 depend: [EasyDB, Factions, Vault]
 
 commands:
