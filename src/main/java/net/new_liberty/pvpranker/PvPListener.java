@@ -1,6 +1,6 @@
 package net.new_liberty.pvpranker;
 
-import com.massivecraft.factions.Conf;
+import com.massivecraft.factions.FPlayer;
 import com.massivecraft.factions.FPlayers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,8 +50,9 @@ public class PvPListener implements Listener {
         Player p = event.getPlayer();
 
         String fprefix = "";
+        FPlayer player = FPlayers.i.get(p);
         if (FPlayers.i.get(p).hasFaction()) {
-            fprefix = Conf.chatTagReplaceString;
+            fprefix = "[FACTION]";
         }
         fprefix = "[" + fprefix + "]";
 
