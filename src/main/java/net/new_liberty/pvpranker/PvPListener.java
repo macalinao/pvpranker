@@ -8,6 +8,7 @@ import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -79,7 +80,7 @@ public class PvPListener implements Listener {
         // Skull handling
         double chance = plugin.getConfig().getDouble("head-drop-chance", 0.1);
         if (chance > Math.random()) {
-            ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+            ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
             SkullMeta sm = (SkullMeta) skull.getItemMeta();
             sm.setOwner(player.getName());
             sm.setLore(Arrays.asList(ChatColor.RESET.toString() + ChatColor.WHITE + "Killed by " + ChatColor.AQUA + killer.getName() + ChatColor.WHITE + " on " + ChatColor.YELLOW + DATE_FORMAT.format(new Date())));
