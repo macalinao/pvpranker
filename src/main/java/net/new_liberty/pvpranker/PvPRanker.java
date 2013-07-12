@@ -54,12 +54,7 @@ public class PvPRanker extends JavaPlugin {
             return;
         }
 
-        // Load DB info
-        String dbUser = getConfig().getString("db.user");
-        String dbPass = getConfig().getString("db.pass", "");
-        String dbHost = getConfig().getString("db.host");
-        int dbPort = getConfig().getInt("db.port");
-        String dbName = getConfig().getString("db.name");
+        // Load DB
         Database db = EasyDB.getDb();
         if (!db.isValid()) {
             getLogger().log(Level.SEVERE, "Could not connect to database. Disabling plugin.");
