@@ -78,7 +78,7 @@ public class PvPListener implements Listener {
         Player killer = (Player) cause;
 
 
-        final Location loc = player.getLocation();
+        Location loc = player.getLocation();
 
         // Skull handling
         double chance = plugin.getConfig().getDouble("head-drop-chance", 0.1);
@@ -91,10 +91,6 @@ public class PvPListener implements Listener {
             loc.getWorld().dropItemNaturally(loc, skull);
         }
 
-        // Our closure
-        final String killedName = player.getName();
-        final String killerName = killer.getName();
-
-        (new KillUpdateTask(plugin, loc, killerName, killedName)).runTaskAsynchronously(plugin);
+        (new KillUpdateTask(plugin, loc, killer.getName(), player.getName())).runTaskAsynchronously(plugin);
     }
 }
