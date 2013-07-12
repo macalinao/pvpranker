@@ -45,27 +45,27 @@ public class PvPListener implements Listener {
         return (chat != null);
     }
 
-    @EventHandler
-    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
-        Player p = event.getPlayer();
-
-        String fprefix = "";
-        FPlayer player = FPlayers.i.get(p);
-        if (FPlayers.i.get(p).hasFaction()) {
-            fprefix = "[FACTION]";
-        }
-        fprefix = "[" + fprefix + "]";
-
-        String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
-        if (p.hasPermission("pvpranker.hiderank")) {
-            rank = "";
-        }
-        String prefix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerPrefix(p));
-        String suffix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerSuffix(p));
-
-        String format = fprefix + rank + prefix + " " + p.getName() + ": " + suffix + "%2$s";
-        event.setFormat(format);
-    }
+//    @EventHandler
+//    public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
+//        Player p = event.getPlayer();
+//
+//        String fprefix = "";
+//        FPlayer player = FPlayers.i.get(p);
+//        if (FPlayers.i.get(p).hasFaction()) {
+//            fprefix = "[FACTION]";
+//        }
+//        fprefix = "[" + fprefix + "]";
+//
+//        String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
+//        if (p.hasPermission("pvpranker.hiderank")) {
+//            rank = "";
+//        }
+//        String prefix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerPrefix(p));
+//        String suffix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerSuffix(p));
+//
+//        String format = fprefix + rank + prefix + " " + p.getName() + ": " + suffix + "%2$s";
+//        event.setFormat(format);
+//    }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
