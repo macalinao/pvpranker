@@ -62,10 +62,6 @@ public class PvPListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void onPlayerDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
-        if (player.getHealth() > 0) {
-            return;
-        }
-
         if (!(player.getLastDamageCause() instanceof EntityDamageByEntityEvent)) {
             return;
         }
