@@ -3,6 +3,7 @@ package net.new_liberty.pvpranker;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,7 +11,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 /**
@@ -75,11 +79,24 @@ public class PvPListener implements Listener {
             return;
         }
 
-        Player damager = (Player) cause;
+        Player killer = (Player) cause;
 
-        final Location loc = cause.getLocation();
+
+        final Location loc = player.getLocation();
+
+        // Skull handling
+        double chance = plugin.getConfig().getDouble("head-drop-chance", 0.1);
+        if (chance > Math.random()) {
+            ItemStack skull = new ItemStack(Material.SKULL_ITEM);
+            SkullMeta sm = (SkullMeta) skull.getItemMeta();
+            sm.setOwner(player.getName());
+            skull.setItemMeta(sm);
+            loc.getWorld().dropItemNaturally(loc, skull);
+        }
+
+        // Our closure
         final String killedName = player.getName();
-        final String killerName = damager.getName();
+        final String killerName = killer.getName();
         plugin.getServer().getScheduler().runTaskAsynchronously(plugin, new Runnable() {
             @Override
             public void run() {
