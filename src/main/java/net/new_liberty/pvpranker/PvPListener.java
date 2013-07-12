@@ -1,5 +1,9 @@
 package net.new_liberty.pvpranker;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import net.milkbowl.vault.chat.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -10,7 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
@@ -21,10 +24,8 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  * PvPRanker listener
  */
 public class PvPListener implements Listener {
-    private static class FPlayer {
-        public FPlayer() {
-        }
-    }
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM d, yyyy hh:mm aaa");
+
     private final PvPRanker plugin;
 
     private Chat chat;
@@ -59,22 +60,17 @@ public class PvPListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onEntityDeath(EntityDeathEvent event) {
-        Entity victim = event.getEntity();
-        if (!(victim instanceof Player)) {
-            return;
-        }
-
-        Player player = (Player) victim;
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        Player player = event.getEntity();
         if (player.getHealth() > 0) {
             return;
         }
 
-        if (!(victim.getLastDamageCause() instanceof EntityDamageByEntityEvent)) {
+        if (!(player.getLastDamageCause() instanceof EntityDamageByEntityEvent)) {
             return;
         }
 
-        Entity cause = ((EntityDamageByEntityEvent) victim.getLastDamageCause()).getDamager();
+        Entity cause = ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
         if (!(cause instanceof Player)) {
             return;
         }
@@ -90,6 +86,7 @@ public class PvPListener implements Listener {
             ItemStack skull = new ItemStack(Material.SKULL_ITEM);
             SkullMeta sm = (SkullMeta) skull.getItemMeta();
             sm.setOwner(player.getName());
+            sm.setLore(Arrays.asList(ChatColor.RESET.toString() + ChatColor.WHITE + "Killed by " + ChatColor.AQUA + killer.getName() + ChatColor.WHITE + " on " + ChatColor.YELLOW + DATE_FORMAT.format(new Date())));
             skull.setItemMeta(sm);
             loc.getWorld().dropItemNaturally(loc, skull);
         }
