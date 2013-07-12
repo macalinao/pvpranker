@@ -1,5 +1,7 @@
 package net.new_liberty.pvpranker;
 
+import com.massivecraft.factions.Conf;
+import com.massivecraft.factions.FPlayers;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -47,8 +49,12 @@ public class PvPListener implements Listener {
     public void onAsyncPlayerChat(AsyncPlayerChatEvent event) {
         Player p = event.getPlayer();
 
-        String fprefix = "[{factions_relcolor}" + ChatColor.BOLD + "{factions_roleprefix}"
-                + ChatColor.RESET + "{factions_relcolor}{factions_name}" + ChatColor.WHITE + "]";
+        String fprefix = "";
+        if (FPlayers.i.get(p).hasFaction()) {
+            fprefix = Conf.chatTagReplaceString;
+        }
+        fprefix = "[" + fprefix + "]";
+
         String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
         if (p.hasPermission("pvpranker.hiderank")) {
             rank = "";
