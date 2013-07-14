@@ -6,7 +6,7 @@
     <description>Ranks people based on how good they are in PvP.</description>
     <groupId>net.new_liberty</groupId>
     <artifactId>pvpranker</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
     <url>http://new-liberty.net</url>
 
@@ -21,7 +21,7 @@
         <developerConnection>scm:git:git@bitbucket.org:newliberty/pvpranker.git</developerConnection>
         <connection>scm:git:https://bitbucket.org/newliberty/pvpranker.git</connection>
         <url>https://bitbucket.org/newliberty/pvpranker</url>
-        <tag>HEAD</tag>
+        <tag>pvpranker-1.0.1</tag>
     </scm>
 
     <ciManagement>
