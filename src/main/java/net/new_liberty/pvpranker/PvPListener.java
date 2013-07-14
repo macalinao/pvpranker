@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -76,11 +77,22 @@ public class PvPListener implements Listener {
         }
 
         Entity cause = ((EntityDamageByEntityEvent) player.getLastDamageCause()).getDamager();
-        if (!(cause instanceof Player)) {
+        Player killer;
+
+        if (cause instanceof Player) {
+            killer = (Player) cause;
+
+        } else if (cause instanceof Projectile) {
+            Projectile proj = (Projectile) cause;
+            Entity shooter = proj.getShooter();
+            if (!(shooter instanceof Player)) {
+                return;
+            }
+            killer = (Player) shooter;
+
+        } else {
             return;
         }
-
-        Player killer = (Player) cause;
 
 
         Location loc = player.getLocation();
