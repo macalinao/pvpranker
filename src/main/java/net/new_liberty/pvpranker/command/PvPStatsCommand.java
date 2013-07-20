@@ -25,6 +25,7 @@ public class PvPStatsCommand implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player) && args.length == 0) {
             sender.sendMessage(ChatColor.RED + "You must choose a player to view their stats.");
+            return true;
         }
 
         String nameStr = sender.getName();
