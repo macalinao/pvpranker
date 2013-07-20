@@ -2,6 +2,7 @@ package net.new_liberty.pvpranker.command;
 
 import java.text.NumberFormat;
 import java.util.Map;
+import java.util.Map.Entry;
 import net.new_liberty.pvpranker.PvPRanker;
 import net.new_liberty.pvpranker.PvPer;
 import org.bukkit.Bukkit;
