@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  * PvP Command
@@ -22,6 +23,10 @@ public class PvPStatsCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(final CommandSender sender, Command command, String label, String[] args) {
+        if (!(sender instanceof Player) && args.length == 0) {
+            sender.sendMessage(ChatColor.RED + "You must choose a player to view their stats.");
+        }
+
         String nameStr = sender.getName();
         if (args.length > 0) {
             nameStr = args[0];
