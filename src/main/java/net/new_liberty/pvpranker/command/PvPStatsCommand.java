@@ -70,6 +70,26 @@ public class PvPStatsCommand implements CommandExecutor {
                         + ChatColor.GREEN + "Kills: " + ChatColor.YELLOW + kills + "    "
                         + ChatColor.GREEN + "Deaths: " + ChatColor.YELLOW + deaths + "    "
                         + ChatColor.GREEN + "KDR: " + ChatColor.YELLOW + kdr);
+
+                Object mostKilled = stats.get("most_killed");
+                String mostKilledMsg;
+                if (mostKilled != null) {
+                    mostKilledMsg = mostKilled + " (" + stats.get("most_killed_count") + " times)";
+                } else {
+                    mostKilledMsg = "This player hasn't killed anyone yet.";
+                }
+
+                sender.sendMessage(ChatColor.GREEN + "Most killed: " + ChatColor.YELLOW + mostKilledMsg);
+
+                Object mostKilledBy = stats.get("most_killed_by");
+                String mostKilledByMsg;
+                if (mostKilledBy != null) {
+                    mostKilledByMsg = mostKilledBy + " (" + stats.get("most_killed_by_count") + " times)";
+                } else {
+                    mostKilledByMsg = "This player hasn't killed anyone yet.";
+                }
+
+                sender.sendMessage(ChatColor.GREEN + "Most killed by: " + ChatColor.YELLOW + mostKilledByMsg);
             }
         });
 
