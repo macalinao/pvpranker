@@ -44,6 +44,10 @@ public class PvPStatsCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.YELLOW + "=== " + name + "'s PvP Stats ===");
 
                 Map<String, Object> stats = pvper.getStats(plugin.getMilestone());
+                if (stats == null) {
+                    sender.sendMessage(ChatColor.YELLOW + "This player hasn't been involved in any kills yet.");
+                    return;
+                }
                 Object scoreObj = stats.get("score");
                 int score = 0;
                 if (scoreObj != null) {
