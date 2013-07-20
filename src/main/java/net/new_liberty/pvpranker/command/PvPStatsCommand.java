@@ -1,5 +1,7 @@
 package net.new_liberty.pvpranker.command;
 
+import java.text.NumberFormat;
+import java.util.Map;
 import net.new_liberty.pvpranker.PvPRanker;
 import net.new_liberty.pvpranker.PvPer;
 import org.bukkit.Bukkit;
@@ -34,9 +36,33 @@ public class PvPStatsCommand implements CommandExecutor {
 
                 sender.sendMessage(ChatColor.YELLOW + "=== " + name + "'s PvP Stats ===");
 
-                int score = pvper.getScore(plugin.getMilestone());
+                Map<String, Object> stats = pvper.getStats(plugin.getMilestone());
+                Object scoreObj = stats.get("score");
+                int score = 0;
+                if (scoreObj != null) {
+                    score = ((Number) scoreObj).intValue();
+                }
+
+                Object killsObj = stats.get("kills");
+                int kills = 0;
+                if (killsObj != null) {
+                    kills = ((Number) killsObj).intValue();
+                }
+
+                Object deathsObj = stats.get("deaths");
+                int deaths = 0;
+                if (deathsObj != null) {
+                    deaths = ((Number) deathsObj).intValue();
+                }
+
+                String kdr = NumberFormat.getNumberInstance().format((double) kills / deaths);
+
                 sender.sendMessage(ChatColor.GREEN + "Rank: " + plugin.getRank(score).getName());
-                sender.sendMessage(ChatColor.GREEN + "Score: " + score);
+                sender.sendMessage(
+                        ChatColor.GREEN + "Score: " + ChatColor.YELLOW + score + "    "
+                        + ChatColor.GREEN + "Kills: " + ChatColor.YELLOW + kills + "    "
+                        + ChatColor.GREEN + "Deaths: " + ChatColor.YELLOW + deaths + "    "
+                        + ChatColor.GREEN + "KDR: " + ChatColor.YELLOW + kdr);
             }
         });
 

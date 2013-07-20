@@ -16,6 +16,8 @@ import org.bukkit.entity.Player;
  * database calls.
  */
 public class PvPer {
+    private static final MapHandler MAP_HANDLER = new MapHandler();
+
     private final PvPRanker plugin;
 
     private final String name;
@@ -109,7 +111,7 @@ public class PvPer {
                 + "LEFT OUTER JOIN (SELECT killed, COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ? GROUP BY killed ORDER BY kills DESC LIMIT 1) AS D ON TRUE"
                 + "LEFT OUTER JOIN (SELECT player, COUNT(*) AS kills FROM pvpr_kills WHERE killed = ? AND milestone = ? GROUP BY player ORDER BY kills DESC LIMIT 1) AS E ON TRUE";
 
-        return EasyDB.getDb().query(query, new MapHandler(), name, milestone, name, milestone, name, milestone, name, milestone, name, milestone);
+        return EasyDB.getDb().query(query, MAP_HANDLER, name, milestone, name, milestone, name, milestone, name, milestone, name, milestone);
     }
 
     /**
