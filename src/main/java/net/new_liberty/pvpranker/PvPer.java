@@ -55,7 +55,7 @@ public class PvPer {
      * @return
      */
     public int getScore(String milestone) {
-        String query = "SELECT SUM(score) AS score "
+        String query = "SELECT score "
                 + "FROM pvpr_scores "
                 + "WHERE player = ? AND milestone = ?";
         return ((Number) EasyDB.getDb().get(query, 0, name, milestone)).intValue();
