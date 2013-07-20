@@ -102,13 +102,13 @@ public class PvPer {
      * @return
      */
     public Map<String, Object> getStats(String milestone) {
-        String query = "SELECT"
-                + "	A.player, A.score, B.kills, C.deaths, D.killed AS most_killed, D.kills AS most_killed_count, E.player AS most_killed_by, E.kills AS most_killed_by_count"
-                + "FROM"
-                + "(SELECT player, score FROM pvpr_scores WHERE player = ? AND milestone = ?) AS A"
-                + "LEFT OUTER JOIN (SELECT COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ?) AS B ON TRUE"
-                + "LEFT OUTER JOIN (SELECT COUNT(*) AS deaths FROM pvpr_kills WHERE killed = ? AND milestone = ?) AS C ON TRUE"
-                + "LEFT OUTER JOIN (SELECT killed, COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ? GROUP BY killed ORDER BY kills DESC LIMIT 1) AS D ON TRUE"
+        String query = "SELECT "
+                + "	A.player, A.score, B.kills, C.deaths, D.killed AS most_killed, D.kills AS most_killed_count, E.player AS most_killed_by, E.kills AS most_killed_by_count "
+                + "FROM "
+                + "(SELECT player, score FROM pvpr_scores WHERE player = ? AND milestone = ?) AS A "
+                + "LEFT OUTER JOIN (SELECT COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ?) AS B ON TRUE "
+                + "LEFT OUTER JOIN (SELECT COUNT(*) AS deaths FROM pvpr_kills WHERE killed = ? AND milestone = ?) AS C ON TRUE "
+                + "LEFT OUTER JOIN (SELECT killed, COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ? GROUP BY killed ORDER BY kills DESC LIMIT 1) AS D ON TRUE "
                 + "LEFT OUTER JOIN (SELECT player, COUNT(*) AS kills FROM pvpr_kills WHERE killed = ? AND milestone = ? GROUP BY player ORDER BY kills DESC LIMIT 1) AS E ON TRUE";
 
         return EasyDB.getDb().query(query, MAP_HANDLER, name, milestone, name, milestone, name, milestone, name, milestone, name, milestone);
