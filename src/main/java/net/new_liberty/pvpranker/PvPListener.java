@@ -57,15 +57,10 @@ public class PvPListener implements Listener {
             fprefix = Conf.chatTagReplaceString;
         }
         fprefix = "[" + fprefix + "]";
-
-        String rank = ChatColor.WHITE + "{" + plugin.getPvPer(p.getName()).getRank(plugin.getMilestone()).getName() + ChatColor.WHITE + "}";
-        if (p.hasPermission("pvpranker.hiderank")) {
-            rank = "";
-        }
         String prefix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerPrefix(p));
         String suffix = ChatColor.translateAlternateColorCodes('&', chat.getPlayerSuffix(p));
 
-        String format = fprefix + rank + prefix + " " + p.getName() + ChatColor.WHITE + ": " + suffix + "%2$s";
+        String format = fprefix + prefix + " " + p.getName() + ChatColor.WHITE + ": " + suffix + "%2$s";
         event.setFormat(format);
     }
 
