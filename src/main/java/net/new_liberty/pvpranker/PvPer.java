@@ -47,8 +47,6 @@ public class PvPer {
      * Gets this player's stats in a Map.
      *
      * <ul>
-     * <li>player - The player</li>
-     * <li>score - The score</li>
      * <li>kills - Player's kills</li>
      * <li>deaths - Player's deaths</li>
      * <li>most_killed - Player they have the most kills on</li>
@@ -143,6 +141,5 @@ public class PvPer {
 
         EasyDB.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }
-
 
 }
