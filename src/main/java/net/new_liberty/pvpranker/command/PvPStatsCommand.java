@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
  * PvP Command
  */
 public class PvPStatsCommand implements CommandExecutor {
+
     private final PvPRanker plugin;
 
     public PvPStatsCommand(PvPRanker plugin) {
@@ -48,11 +49,6 @@ public class PvPStatsCommand implements CommandExecutor {
                     sender.sendMessage(ChatColor.YELLOW + "This player hasn't been involved in any kills yet.");
                     return;
                 }
-                Object scoreObj = stats.get("score");
-                int score = 0;
-                if (scoreObj != null) {
-                    score = ((Number) scoreObj).intValue();
-                }
 
                 Object killsObj = stats.get("kills");
                 int kills = 0;
@@ -68,10 +64,8 @@ public class PvPStatsCommand implements CommandExecutor {
 
                 String kdr = NumberFormat.getNumberInstance().format((double) kills / deaths);
 
-                sender.sendMessage(ChatColor.GREEN + "Rank: " + plugin.getRank(score).getName());
                 sender.sendMessage(
-                        ChatColor.GREEN + "Score: " + ChatColor.YELLOW + score + "    "
-                        + ChatColor.GREEN + "Kills: " + ChatColor.YELLOW + kills + "    "
+                        ChatColor.GREEN + "Kills: " + ChatColor.YELLOW + kills + "    "
                         + ChatColor.GREEN + "Deaths: " + ChatColor.YELLOW + deaths + "    "
                         + ChatColor.GREEN + "KDR: " + ChatColor.YELLOW + kdr);
 
@@ -95,8 +89,10 @@ public class PvPStatsCommand implements CommandExecutor {
 
                 sender.sendMessage(ChatColor.GREEN + "Most killed by: " + ChatColor.YELLOW + mostKilledByMsg);
             }
+
         });
 
         return true;
     }
+
 }

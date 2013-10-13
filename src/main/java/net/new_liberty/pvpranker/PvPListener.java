@@ -29,6 +29,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
  * PvPRanker listener
  */
 public class PvPListener implements Listener {
+
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MMMM d, yyyy hh:mm aaa");
 
     private final PvPRanker plugin;
@@ -53,7 +54,7 @@ public class PvPListener implements Listener {
 
         String fprefix = "";
         FPlayer player = FPlayers.i.get(p);
-        if (FPlayers.i.get(p).hasFaction()) {
+        if (player.hasFaction()) {
             fprefix = Conf.chatTagReplaceString;
         }
         fprefix = "[" + fprefix + "]";
@@ -105,4 +106,5 @@ public class PvPListener implements Listener {
 
         (new KillUpdateTask(plugin, loc, killer.getName(), player.getName())).runTaskAsynchronously(plugin);
     }
+
 }

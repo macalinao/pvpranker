@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
  * database calls.
  */
 public class PvPer {
+
     private final PvPRanker plugin;
 
     private final String name;
@@ -43,50 +44,6 @@ public class PvPer {
     }
 
     /**
-     * Gets the score of this PvPer.
-     *
-     * @return
-     */
-    public int getScore() {
-        String query = "SELECT SUM(score) AS score "
-                + "FROM pvpr_scores "
-                + "WHERE player = ?";
-        return ((Number) EasyDB.getDb().get(query, 0, name)).intValue();
-    }
-
-    /**
-     * Gets the score of this PvPer at the given milestone.
-     *
-     * @param milestone
-     * @return
-     */
-    public int getScore(String milestone) {
-        String query = "SELECT score "
-                + "FROM pvpr_scores "
-                + "WHERE player = ? AND milestone = ?";
-        return ((Number) EasyDB.getDb().get(query, 0, name, milestone)).intValue();
-    }
-
-    /**
-     * Gets this player's rank.
-     *
-     * @return
-     */
-    public Rank getRank() {
-        return plugin.getRank(getScore());
-    }
-
-    /**
-     * Gets this player's rank at the given milestone.
-     *
-     * @param milestone
-     * @return
-     */
-    public Rank getRank(String milestone) {
-        return plugin.getRank(getScore(milestone));
-    }
-
-    /**
      * Gets this player's stats in a Map.
      *
      * <ul>
@@ -105,10 +62,9 @@ public class PvPer {
      */
     public Map<String, Object> getStats(String milestone) {
         String query = "SELECT "
-                + "A.player, A.score, B.kills, C.deaths, D.killed AS most_killed, D.kills AS most_killed_count, E.player AS most_killed_by, E.kills AS most_killed_by_count "
+                + "B.kills, C.deaths, D.killed AS most_killed, D.kills AS most_killed_count, E.player AS most_killed_by, E.kills AS most_killed_by_count "
                 + "FROM "
-                + "(SELECT player, score FROM pvpr_scores WHERE player = ? AND milestone = ?) AS A "
-                + "LEFT OUTER JOIN (SELECT COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ?) AS B ON TRUE "
+                + "(SELECT COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ?) AS B ON TRUE "
                 + "LEFT OUTER JOIN (SELECT COUNT(*) AS deaths FROM pvpr_kills WHERE killed = ? AND milestone = ?) AS C ON TRUE "
                 + "LEFT OUTER JOIN (SELECT killed, COUNT(*) AS kills FROM pvpr_kills WHERE player = ? AND milestone = ? GROUP BY killed ORDER BY kills DESC LIMIT 1) AS D ON TRUE "
                 + "LEFT OUTER JOIN (SELECT player, COUNT(*) AS kills FROM pvpr_kills WHERE killed = ? AND milestone = ? GROUP BY player ORDER BY kills DESC LIMIT 1) AS E ON TRUE";
@@ -121,8 +77,6 @@ public class PvPer {
                 }
 
                 Map<String, Object> ret = new HashMap<String, Object>();
-                ret.put("player", rs.getObject("player"));
-                ret.put("score", rs.getObject("score"));
                 ret.put("kills", rs.getObject("kills"));
                 ret.put("deaths", rs.getObject("deaths"));
                 ret.put("most_killed", rs.getObject("most_killed"));
@@ -132,7 +86,8 @@ public class PvPer {
 
                 return ret;
             }
-        }, name, milestone, name, milestone, name, milestone, name, milestone, name, milestone);
+
+        }, name, milestone, name, milestone, name, milestone, name, milestone);
     }
 
     /**
@@ -189,15 +144,5 @@ public class PvPer {
         EasyDB.getDb().update(query, name, killed, playerFaction, otherFaction, loc.getWorld().getName(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), milestone);
     }
 
-    /**
-     * Adds a specified amount to the player's score for the given milestone.
-     *
-     * @param amount
-     * @param milestone
-     */
-    public void addScore(int amount, String milestone) {
-        String query = "INSERT INTO pvpr_scores (player, milestone, score) VALUES (?, ?, ?) "
-                + "ON DUPLICATE KEY UPDATE score = score + ?";
-        EasyDB.getDb().update(query, name, milestone, amount, amount);
-    }
+
 }

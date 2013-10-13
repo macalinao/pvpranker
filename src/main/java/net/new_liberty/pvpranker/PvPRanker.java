@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import net.new_liberty.pvpranker.command.PvPMilestoneCommand;
-import net.new_liberty.pvpranker.command.PvPTopCommand;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -20,22 +19,8 @@ import org.bukkit.plugin.java.JavaPlugin;
  * PvPRanker main class
  */
 public class PvPRanker extends JavaPlugin {
-    private static ResultSetHandler<LinkedHashMap<String, Integer>> REPORT_HANDLER = new ResultSetHandler<LinkedHashMap<String, Integer>>() {
-        @Override
-        public LinkedHashMap<String, Integer> handle(ResultSet rs) throws SQLException {
-            LinkedHashMap<String, Integer> ret = new LinkedHashMap<String, Integer>();
-            while (rs.next()) {
-                ret.put(rs.getString("player"), rs.getInt("score"));
-            }
-            return ret;
-        }
-    };
-
-    private Map<String, Rank> ranks;
 
     private String milestone;
-
-    private Rank lowest = null;
 
     @Override
     public void onEnable() {
@@ -90,17 +75,8 @@ public class PvPRanker extends JavaPlugin {
 
         getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
         getCommand("pvpstats").setExecutor(new PvPStatsCommand(this));
-        getCommand("pvptop").setExecutor(new PvPTopCommand(this));
 
         getLogger().log(Level.INFO, "Plugin enabled.");
-    }
-
-    @Override
-    public void onDisable() {
-        if (!isEnabled()) {
-            return;
-        }
-        ranks = null;
     }
 
     /**
@@ -108,32 +84,6 @@ public class PvPRanker extends JavaPlugin {
      */
     private void loadConfig() {
         milestone = getConfig().getString("milestone", "default");
-
-        // Load ranks
-        ranks = new HashMap<String, Rank>();
-        ConfigurationSection s = getConfig().getConfigurationSection("ranks");
-        if (s == null) {
-            s = getConfig().createSection("ranks");
-        }
-
-        for (String id : s.getKeys(false)) {
-            String name = s.getString(id + ".name", id);
-            int score = s.getInt(id + ".score");
-            int worth = s.getInt(id + ".worth");
-            ranks.put(id, new Rank(id, name, score, worth));
-        }
-
-        // Calculate lowest rank
-        for (Rank rank : ranks.values()) {
-            if (lowest == null) {
-                lowest = rank;
-                continue;
-            }
-
-            if (rank.getScore() < lowest.getScore()) {
-                lowest = rank;
-            }
-        }
     }
 
     /**
@@ -164,79 +114,4 @@ public class PvPRanker extends JavaPlugin {
         saveConfig();
     }
 
-    /**
-     * Gets a rank by its id.
-     *
-     * @param id
-     * @return
-     */
-    public Rank getRank(String id) {
-        return ranks.get(id);
-    }
-
-    /**
-     * Gets the lowest rank possible.
-     *
-     * @return
-     */
-    public Rank getLowestRank() {
-        return lowest;
-    }
-
-    /**
-     * Gets a rank from a score.
-     *
-     * @param score
-     * @return Returns null if the score is below the lowest rank.
-     */
-    public Rank getRank(int score) {
-        Rank ret = null;
-        for (Rank rank : ranks.values()) {
-            if (rank.getScore() > score) {
-                continue; // We want ranks with a score less than this
-            }
-
-            if (ret == null) {
-                ret = rank;
-                continue;
-            }
-
-            if (rank.getScore() > ret.getScore()) {
-                ret = rank;
-            }
-        }
-
-        return ret;
-    }
-
-    /**
-     * Generates a score report based on all-time stats.
-     *
-     * @param limit The number of records to get.
-     *
-     * @return A score report with the highest scores first. Keys are the player
-     * and values are the player's score.
-     */
-    public LinkedHashMap<String, Integer> generateScoreReport(int limit) {
-        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores GROUP BY player ORDER BY score DESC LIMIT ?";
-        return EasyDB.getDb().query(query, REPORT_HANDLER, limit);
-    }
-
-    /**
-     * Generates a score report.
-     *
-     * @param limit The number of records to get.
-     * @param milestone The milestone of the report.
-     *
-     * @return A score report with the highest scores first. Keys are the player
-     * and values are the player's score.
-     */
-    public LinkedHashMap<String, Integer> generateScoreReport(int limit, String milestone) {
-        if (milestone == null) {
-            return generateScoreReport(limit);
-        }
-
-        String query = "SELECT player, SUM(score) AS score FROM pvpr_scores WHERE milestone = ? GROUP BY player, milestone ORDER BY score DESC LIMIT ?";
-        return EasyDB.getDb().query(query, REPORT_HANDLER, milestone, limit);
-    }
 }
