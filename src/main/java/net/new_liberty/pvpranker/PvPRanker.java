@@ -64,17 +64,9 @@ public class PvPRanker extends JavaPlugin {
                 + "time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,"
                 + "PRIMARY KEY (id));");
 
-        // Scores
-        db.update("CREATE TABLE IF NOT EXISTS pvpr_scores ("
-                + "player varchar(16) NOT NULL,"
-                + "milestone varchar(255) NOT NULL,"
-                + "score INT(8) NOT NULL,"
-                + "PRIMARY KEY (player, milestone));");
-
         Bukkit.getPluginManager().registerEvents(listener, this);
 
         getCommand("pvpmilestone").setExecutor(new PvPMilestoneCommand(this));
-        getCommand("pvpstats").setExecutor(new PvPStatsCommand(this));
 
         getLogger().log(Level.INFO, "Plugin enabled.");
     }
